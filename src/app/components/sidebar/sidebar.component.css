@@ -1,0 +1,31 @@
+*{
+    color: #fff 60%;
+}
+p{
+    color: rgba(255, 255, 255, 0.6);
+}
+.simple-text{
+    color: #fff !important;
+    font-family: 'Lobster', cursive !important;
+    text-transform: none !important;
+}
+
+li.active > a {
+    background:#2A3F54;
+    background-color: none;
+    box-shadow: none;
+    color: #fff;
+}
+.sidebar{
+    background: #2A3F54 !important;
+    background-color: none;
+    box-shadow: none;
+    color: #fff;
+}
+li.active > a >p{
+    color: #fff;
+}
+
+i{
+    color: rgba(255, 255, 255, 0.6) !important;
+}
