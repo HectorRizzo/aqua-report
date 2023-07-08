@@ -1,0 +1,131 @@
+
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="card card-plain">
+          <!-- <div class="card-header card-header-danger">
+              <h4 class="card-title">Material Design Icons</h4>
+              <p class="card-category">Handcrafted by our friends from
+                  <a target="_blank" href="https://fonts.google.com/icons">Google</a>
+              </p>
+          </div> -->
+          <div class="row">
+            <div class="col-3 d-flex"> 
+                <span> Categoria </span>
+                <div class="dropdown">
+                    <button href="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" >
+                        <span *ngIf="categoriaSeleccionada!=undefined">
+                            {{categoriaSeleccionada.nombre}}
+                        </span>
+                        <b class="caret"></b>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let cat of categoria">
+                            <a (click)="changeCategoria(cat)">
+                                {{cat.nombre}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div >
+
+            <div class="col-3">
+
+            </div>
+
+            <div  class="col">
+
+            </div>
+            <div class="col-2">
+                <button mat-raised-button class="btn btn-danger">
+                    <span>Ver Mapa</span>
+                </button>
+            </div>
+          </div>
+          <div class="row">
+              <!-- <div class="col-md-12">
+                  <div class="card-body">
+                      <div class="iframe-container d-none d-lg-block">
+                          <iframe src="https://material.io/design/iconography/system-icons.html#grid-and-keyline-shapes">
+                              <p>Your browser does not support iframes.</p>
+                          </iframe>
+                      </div>
+                      <div class="col-md-12 d-none d-sm-block d-md-block d-lg-none d-block d-sm-none text-center ml-auto mr-auto">
+                          <h5>The icons are visible on Desktop mode inside an iframe. Since the iframe is not working on Mobile and Tablets please visit the icons on their original page on Google. Check the
+                              <a href="https://fonts.google.com/icons" target="_blank">Material Icons</a>
+                          </h5>
+                      </div>
+                  </div>
+              </div> -->
+
+              <!-- Tablas-->
+
+              <div class="col-md-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        Descripción
+                                    </th>
+                                    <th>
+                                        Ubicación
+                                    </th>
+                                    <th>
+                                        Prioridad
+                                    </th>
+                                    <th>
+                                        Estado
+                                    </th>
+                                    <th>
+                                        Fecha Creación
+                                    </th>
+                                    <th>
+                                        Acciones
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of data">
+                                        <ng-container *ngIf="categoriaSeleccionada && item.categoria == categoriaSeleccionada.id">
+                                            <td>
+                                                {{item.id}}
+                                            </td>
+                                            <td>
+                                                {{item.descripcion}}
+                                            </td>
+                                            <td>
+    
+                                            </td>
+                                            <td>
+                                                {{item.prioridad}}
+                                            </td>
+                                            <td class="text-primary">
+                                                {{item.estado}}
+                                            </td>
+                                            <td class="">
+                                                {{item.fechaCreacion}}
+                                            </td>
+                                            <td class="">
+                                                <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                                <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                                    <i class="material-icons">delete</i>
+                                                </button>
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>

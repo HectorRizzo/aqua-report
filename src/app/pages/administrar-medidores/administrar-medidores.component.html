@@ -1,0 +1,110 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-3 d-flex"> 
+            <span> Categoria </span>
+            <div class="dropdown">
+                <button href="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" >
+                    <span *ngIf="categoriaSeleccionada!=undefined">
+                        {{categoriaSeleccionada.nombre}}
+                    </span>
+                    <b class="caret"></b>
+                </button>
+                <ul class="dropdown-menu">
+                    <li *ngFor="let cat of categoria">
+                        <a (click)="changeCategoria(cat)">
+                            {{cat.nombre}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div >
+
+        <div class="col-3">
+
+        </div>
+
+        <div  class="col">
+
+        </div>
+        
+      </div>
+      <div class="row">
+
+          <!-- Tablas-->
+
+          <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                                <th>
+                                    Fecha última lectura
+                                </th>
+                                <th>
+                                    Ultima Lectura
+                                </th>
+                                <th>
+                                    Fecha creación
+                                </th>
+                                <th>
+                                    Fecha proxima lectura
+                                </th>
+                                <th>
+                                    Personal asignado
+                                </th>
+                                <th>
+                                    Acciones
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of data">
+                                    <ng-container *ngIf="categoriaSeleccionada && item.categoria == categoriaSeleccionada.id">
+                                        <td>
+                                            {{item.id}}
+                                        </td>
+                                        <td>
+                                            {{item.descripcion}}
+                                        </td>
+                                        <td>
+                                            {{item.fechaUltimaLectura}}
+                                        </td>
+                                        <td>
+                                            {{item.ultimaLectura}}
+                                        </td>
+                                        <td class="text-primary">
+                                            {{item.fechaCreacion}}
+                                        </td>
+                                        <td class="">
+                                            {{item.fechaProximaLectura}}
+                                        </td>
+                                        <td class="">
+                                            {{item.personalAsignado}}
+                                        </td>
+                                        <td class="">
+                                            <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                            <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+</div>

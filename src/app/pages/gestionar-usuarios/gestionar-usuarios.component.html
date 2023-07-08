@@ -1,0 +1,102 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+            <div class="col-sm-4">
+                <mat-form-field class="example-full-width">
+                  <input matInput type="text" placeholder="Buscar Usuario"
+                  [(ngModel)]="usuarioBusqueda"
+                  (ngModelChange)="buscarUsuario()"
+                  >
+                  
+                </mat-form-field>
+            </div>
+            <div class="col">
+
+            </div>
+
+            <div  class="col-3">
+
+                    <button mat-raised-button class="btn btn-info">
+                        <i class="material-icons">add</i>
+                        Agregar Usuario
+                    </button>
+
+            </div>
+        
+      </div>
+      <div class="row">
+
+          <!-- Tablas-->
+
+          <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th>
+                                    Nombres
+                                </th>
+                                <th>
+                                    Apellidos
+                                </th>
+                                <th>
+                                    Correo Electrónico
+                                </th>
+                                <th>
+                                    Telefono            
+                                </th>
+                                <th>
+                                    Tipo
+                                </th>
+                                <th>
+                                    Estado
+                                </th>
+                                <th>
+                                    Acciones
+                                </th>
+                                
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of dataView">
+                                    <ng-container >
+                                        <td>
+                                            {{item.nombres}}
+                                        </td>
+                                        <td>
+                                            {{item.apellidos}}
+                                        </td>
+                                        <td>
+                                            {{item.correo}}
+                                        </td>
+                                        <td>
+                                            {{item.telefono}}
+                                        </td>
+                                        <td class="text-primary">
+                                            {{item.tipo}}
+                                        </td>
+                                        <td class="">
+                                            {{item.estado}}
+                                        </td>
+
+                                        <td class="">
+                                            <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                            <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+
+</div>

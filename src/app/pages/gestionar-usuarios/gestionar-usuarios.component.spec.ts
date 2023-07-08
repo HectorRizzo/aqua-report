@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IconsComponent } from './icons.component';
+import { GestionarUsuariosComponent } from './gestionar-usuarios.component';
 
-describe('IconsComponent', () => {
-  let component: IconsComponent;
-  let fixture: ComponentFixture<IconsComponent>;
+describe('TypographyComponent', () => {
+  let component: GestionarUsuariosComponent;
+  let fixture: ComponentFixture<GestionarUsuariosComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IconsComponent ]
+      declarations: [ GestionarUsuariosComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IconsComponent);
+    fixture = TestBed.createComponent(GestionarUsuariosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
