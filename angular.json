@@ -149,6 +149,9 @@
             "deployUrl": "/aqua'report/",
             "repo": "https://github.com/HectorRizzo/aqua-report.git"
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     },
