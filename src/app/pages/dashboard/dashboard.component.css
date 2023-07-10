@@ -1,0 +1,16 @@
+.card-primary{
+    background-color: #0487FF;
+    color: #fff;
+}
+
+
+.card-warning{
+    background-color: #EB3D3D;
+    color: #fff;
+}
+
+.card-success{
+    background-color: #3FBD3C;
+    color: #fff;
+}
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as Chartist from 'chartist';
 
 @Component({
   selector: 'app-administrar-reportes',
@@ -30,9 +31,64 @@ export class AdministrarReportesComponent implements OnInit {
 
   categoriaSeleccionada;
   constructor() { }
+  startAnimationForBarChart(chart){
+    let seq2: any, delays2: any, durations2: any;
 
+    seq2 = 0;
+    delays2 = 80;
+    durations2 = 500;
+    chart.on('draw', function(data) {
+      if(data.type === 'bar'){
+          seq2++;
+          data.element.animate({
+            opacity: {
+              begin: seq2 * delays2,
+              dur: durations2,
+              from: 0,
+              to: 1,
+              easing: 'ease'
+            }
+          });
+      }
+    });
+
+    seq2 = 0;
+};
   ngOnInit() {
     this.categoriaSeleccionada = this.categoria[0];
+
+    
+    var datawebsiteViewsChart = {
+      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+      series: [
+        [542, 443, 320, 780, 553, 453, 326]
+
+      ]
+    };
+    var optionswebsiteViewsChart = {
+        axisX: {
+            showGrid: true,
+            offset: 50,
+            position : 'end'
+        },
+        low: 0,
+        high: 1000,
+        chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
+    };
+    let responsiveOptions: any[] = [
+      ['screen and (max-width: 640px, max-height:1000px)', {
+        seriesBarDistance: 0,
+        axisX: {
+          labelInterpolationFnc: function (value) {
+            return value[0];
+          }
+        }
+      }] 
+    ];
+    var websiteViewsChart = new Chartist.Bar('#chartReportes', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
+
+    //start animation for the Emails Subscription Chart
+    this.startAnimationForBarChart(websiteViewsChart);
   }
 
   changeCategoria(event){
