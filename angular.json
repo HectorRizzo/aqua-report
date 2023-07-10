@@ -140,6 +140,15 @@
             ],
             "exclude": []
           }
+        },
+        "gh-pages": {
+          "builder": "@angular-devkit/build-angular:deploy",
+          "options": {
+            "baseHref": "/[nombre-del-repositorio]/",
+            "outputPath": "dist/aqua'report",
+            "deployUrl": "/aqua'report/",
+            "repo": "https://github.com/HectorRizzo/aqua-report.git"
+          }
         }
       }
     },
