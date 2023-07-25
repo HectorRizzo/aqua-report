@@ -36,7 +36,8 @@
 
             </div>
             <div class="col-2">
-                <button mat-raised-button class="btn btn-danger">
+                <button mat-raised-button class="btn btn-danger"
+                (click)="verMapa()">
                     <span>Ver Mapa</span>
                 </button>
             </div>
@@ -79,6 +80,9 @@
                                         Prioridad
                                     </th>
                                     <th>
+                                        Personal Asignado
+                                    </th>
+                                    <th>
                                         Estado
                                     </th>
                                     <th>
@@ -98,10 +102,16 @@
                                                 {{item.descripcion}}
                                             </td>
                                             <td>
-    
+                                                <button mat-raised-button class="btn btn-danger btn-just-icon btn-round"
+                                                    (click)="openModalMapa(item)">
+                                                    <i class="material-icons">map</i>
+                                                </button>
                                             </td>
                                             <td>
                                                 {{item.prioridad}}
+                                            </td>
+                                            <td>
+                                                {{item.personalAsignado}}
                                             </td>
                                             <td class="text-primary">
                                                 {{item.estado}}
@@ -110,10 +120,12 @@
                                                 {{item.fechaCreacion}}
                                             </td>
                                             <td class="">
-                                                <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                                <button mat-raised-button class="btn btn-danger btn-just-icon btn-round"
+                                                (click)="editarReporte(item)">
                                                     <i class="material-icons">edit</i>
                                                 </button>
-                                                <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                                <button mat-raised-button class="btn btn-danger btn-just-icon btn-round"
+                                                (click)="eliminarReporte(item)">
                                                     <i class="material-icons">delete</i>
                                                 </button>
                                             </td>

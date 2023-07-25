@@ -1,0 +1,254 @@
+.autorizacion-apertura {
+    font-family: "Open Sans", "Helvetica", "Arial", "serif" !important;
+    
+      * {
+        font-size: 12px;
+        color: #1a2355;
+      }
+    
+      .border-radius {
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+      }
+      .icon {
+        width: 50px; 
+        height: 50px;
+      }
+      .titulo{
+        display: flex;
+    justify-content: center;
+    font-size: 18px;
+      }
+      .no-data-text{
+        margin-top: 5px;
+        margin-bottom: 3px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .no-data{
+        width: 100px; 
+        height: 100px;
+        margin-top: 5px;
+      }
+
+      .container-boton{
+        display: flex;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: center;
+        align-items: baseline
+      }
+
+      .img-advertencia{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+      }
+      .advertencia{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        font-size: 18px;
+        color: #f5656b;
+      }
+      .cabecera{
+        color: #3962e6;
+
+      }
+      .titulo{
+        display: flex;
+        justify-content: center;
+      }
+    
+      .modal-header {
+        border: none !important;
+        padding: 0px;
+    
+        .close {
+          padding: 0px;
+          margin: 0px;
+        }
+    
+        button {
+          width: 35px !important;
+          height: 35px !important;
+          margin-top: 15px !important;
+          margin-right: 15px !important;
+    
+          span {
+            font-size: 30px;
+            font-weight: 300;
+            color: #adb5bd;
+          }
+    
+          &:not(:disabled):not(.disabled):active:focus {
+            -webkit-box-shadow: 0 0 0 0 #ffffff !important;
+            box-shadow: 0 0 0 0 #ffffff !important;
+            border-color: #ffffff !important;
+          }
+    
+          &:not(:disabled):not(.disabled):active {
+            background-color: #ffffff !important;
+            border-color: #ffffff !important;
+          }
+        }
+      }
+      .lbl-eye{
+        font-size: 12px;
+        padding-right: 1rem;
+      }
+    
+      .modal-body {
+        .titulo {
+          font-size: 16px;
+        }
+
+        .pacienteInfo{
+          background-color: #F7F7F7;
+        }
+
+        a{
+          color: rgb(89, 89, 241);
+          text-decoration: underline;
+          cursor: pointer;
+        }
+
+        .deshabilitar{
+          color:#adb5bd;
+        }
+      }
+      .mycard {
+        border-radius: 7px;
+        background-color: #fff;
+        border: 0.89px solid #dbe0e4;
+        box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.09);
+  
+        .mycard-head {
+          height: 40px;
+          cursor: pointer;
+          border-bottom: 0.89px solid #dbe0e4;
+        }
+  
+        .mycard-body {
+          .textarea {
+            overflow: hidden;
+            resize: none;
+          }
+  
+          .textarea-scroll {
+            overflow-y: auto;
+          }
+  
+          .detalle {
+            min-height: 36px;
+            background-color: #e8eaeda6;
+          }
+  
+          .diagnosticos {
+            min-height: 93.5px;
+            border: 0.89px solid #dbe0e4;
+            border-radius: 6px;
+  
+            &.row-gap {
+              row-gap: 10px;
+            }
+          }
+  
+          .certificados {
+            min-height: 36px;
+          }
+  
+          .form-control {
+            &[readonly] {
+              background-color: #fff !important;
+            }
+          }
+        }
+      }
+      .btn {
+        box-shadow: none;
+        font-size: 12px;
+    
+        &.btn-aceptar {
+          height: 40px;
+          width: 97px;
+          color: #ffffff !important;
+          background-color: #3962e6;
+          border-radius: 6px;
+          border-color: #ffffff;
+        }
+    
+        &.btn-cancelar {
+          height: 40px;
+          width: 97px;
+          margin-right: 10px;
+          color: #3962e6 !important;
+          background-color: #fff;
+          border-radius: 6px;
+          border-color: #3962e6;
+        }
+    
+        &:not(:disabled):not(.disabled):active:focus {
+          -webkit-box-shadow: 0 0 0 0 #2fcc71 !important;
+          box-shadow: 0 0 0 0 #2fcc71 !important;
+          border-color: #2fcc71 !important;
+        }
+    
+        &:not(:disabled):not(.disabled):active {
+          background-color: #2fcc71 !important;
+          border-color: #2fcc71 !important;
+        }
+      }
+
+      .form-group{
+        margin-bottom: 0px;
+        display: flex;
+        flex-wrap: nowrap;
+      }
+      .label{
+        font-size: 16px !important;
+        padding: 0 !important;
+        justify-content: flex-start;
+      }
+
+      .input-modal{
+        width: 50%;
+        height: 40px;
+        border-radius: 6px;
+        padding: 0px 10px;
+        font-size: 12px;
+        color: #1a2355;
+      }
+
+      .my-input{
+        display: flex;
+        justify-content: space-around;
+        margin: 10px 0px;
+      }
+
+      .label-data-form{
+        width: 50%;
+        font-size: 12px;
+        color: #1a2355;
+        margin-top: 10px;
+      }
+      .select-motivos-apertura{
+        padding-right: 0px;
+        padding-left: 0px;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+    }
+
+    ::ng-deep .cdk-overlay-container {
+      z-index: 9999 !important;
+    }
+
+    .calendario{
+      z-index: 10000 !important;
+    }
+    

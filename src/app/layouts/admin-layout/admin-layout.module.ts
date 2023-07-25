@@ -7,16 +7,25 @@ import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { GestionarUsuariosComponent } from '../../pages/gestionar-usuarios/gestionar-usuarios.component';
 import { AdministrarReportesComponent } from '../../pages/administrar-reportes/administrar-reportes.component';
-import { MapsComponent } from '../../pages/maps/maps.component';
+import { MapsComponent } from '../../pages/shared/maps/maps.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
-import {MatRippleModule} from '@angular/material/core';
+import { MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import { AdministrarMedidoresComponent } from 'app/pages/administrar-medidores/administrar-medidores.component';
+import { ModalMapaComponent } from 'app/pages/shared/modal-mapa/modal-mapa.component';
+import { ModalUsuarioComponent } from 'app/pages/shared/modal-usuario/modal-usuario.component';
+import { LoadingComponent } from 'app/pages/shared/loading/loading.component';
+import { ModalAgregarUsuarioUsuarioComponent } from 'app/pages/shared/modal-agregar-usuario/modal-agregar-usuario.component';
+import { ModalReporteComponent } from 'app/pages/shared/modal-reporte/modal-reporte.component';
+import { ModalAgregarLecturaComponent } from 'app/pages/shared/modal-agregar-lectura/modal-agregar-lectura.component';
+import { ModalAgregarMedidorComponent } from 'app/pages/shared/modal-agregar-medidor/modal-agregar-medidor.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -28,6 +37,8 @@ import { AdministrarMedidoresComponent } from 'app/pages/administrar-medidores/a
     MatRippleModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatTooltipModule,
   ],
@@ -38,6 +49,13 @@ import { AdministrarMedidoresComponent } from 'app/pages/administrar-medidores/a
     GestionarUsuariosComponent,
     AdministrarReportesComponent,
     MapsComponent,
+    LoadingComponent,
+    ModalMapaComponent,
+    ModalAgregarUsuarioUsuarioComponent,
+    ModalReporteComponent,
+    ModalUsuarioComponent,
+    ModalAgregarLecturaComponent,
+    ModalAgregarMedidorComponent,
     NotificationsComponent,
     UpgradeComponent,
   ]

@@ -16,7 +16,7 @@
 
             <div  class="col-3">
 
-                    <button mat-raised-button class="btn btn-info">
+                    <button mat-raised-button class="btn btn-info" (click)="abrirModalAgregarUsuario()">
                         <i class="material-icons">add</i>
                         Agregar Usuario
                     </button>
@@ -45,9 +45,6 @@
                                     Correo Electrónico
                                 </th>
                                 <th>
-                                    Telefono            
-                                </th>
-                                <th>
                                     Tipo
                                 </th>
                                 <th>
@@ -62,16 +59,13 @@
                                 <tr *ngFor="let item of dataView">
                                     <ng-container >
                                         <td>
-                                            {{item.nombres}}
+                                            {{item.nombre}}
                                         </td>
                                         <td>
-                                            {{item.apellidos}}
+                                            {{item.apellido}}
                                         </td>
                                         <td>
                                             {{item.correo}}
-                                        </td>
-                                        <td>
-                                            {{item.telefono}}
                                         </td>
                                         <td class="text-primary">
                                             {{item.tipo}}
@@ -81,10 +75,12 @@
                                         </td>
 
                                         <td class="">
-                                            <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                            <button mat-raised-button class="btn btn-danger btn-just-icon btn-round"
+                                            (click)="abrirModalUsuario(item)">
                                                 <i class="material-icons">edit</i>
                                             </button>
-                                            <button mat-raised-button class="btn btn-danger btn-just-icon btn-round">
+                                            <button mat-raised-button class="btn btn-danger btn-just-icon btn-round"
+                                            (click)="eliminarUsuario(item)">
                                                 <i class="material-icons">delete</i>
                                             </button>
                                         </td>

@@ -1,0 +1,60 @@
+<div class="main-content">
+  <app-toast [message]="'hola'" [codigo]="200" *ngIf="true"></app-toast>
+  <app-loading *ngIf="loading"></app-loading>
+  <div class="modal-header d-flex justify-content-end">
+    <h5 class="modal-title" id="exampleModalLabel">Agregar Medidor</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-body">
+                      <form>
+                          <div class="row">
+                            <div class="col-md-12">
+                              Nombres
+                            </div>
+                              <div class="col-md-10">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Nombres" id="nombre" type="text"  (input)="medidor.nombre=$event.target.value">
+                                </mat-form-field>
+                              </div>
+                              <span>
+                                {{medidor.nombre}}
+                              </span>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              Ubicación
+                            </div>
+                            <div class="col-md-10">
+                              <button mat-raised-button class="btn btn-info btn-lg" (click)="openModal()">Agregar</button>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              Coordenadas 
+                              <span>
+                                ( {{medidor.latitud}} , {{medidor.longitud}} )
+                              </span>
+                            </div>
+
+                          </div>
+                          
+                          <div class="row mt-3 d-flex justify-content-around">
+                            <button mat-raised-button type="submit" class="btn btn-info btn-lg" (click)="crearMedidor(medidor)">Agregar</button>
+                            <button mat-raised-button type="submit" class="btn btn-danger btn-lg" (click)="cancelar()">Cancelar</button>  
+                          </div>
+                        
+                          <div class="clearfix"></div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+</div>

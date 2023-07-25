@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AquaReportService } from 'app/services/aquaReport.service';
 import * as Chartist from 'chartist';
 
 @Component({
@@ -9,21 +10,7 @@ import * as Chartist from 'chartist';
 export class DashboardComponent implements OnInit {
 
   reportes = [
-    {
-      titulo: 'Total Reportes',
-      cantidad: '100',
-      color: 'total',
-    },
-    {
-      titulo: 'Reportes No Asignados',
-      cantidad: '12',
-      color: 'no-asignados',
-    },
-    {
-      titulo: 'Reportes Finalizados',
-      cantidad: '88',
-      color: 'finalizados',
-    },
+
   ];
   ultimosReportes = [
     {
@@ -48,7 +35,9 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(
+    private aquaReportService: AquaReportService,
+  ) { }
 
   startAnimationForBarChart(chart){
       let seq2: any, delays2: any, durations2: any;
@@ -74,6 +63,9 @@ export class DashboardComponent implements OnInit {
       seq2 = 0;
   };
   ngOnInit() {
+    this.obtenerReportes();
+    this.obtenerReportesFinalizados();
+    this.obtenerReportesNoAsignados();
 
 
       /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
@@ -114,5 +106,39 @@ export class DashboardComponent implements OnInit {
       //start animation for the Emails Subscription Chart
       this.startAnimationForBarChart(websiteViewsChart);
   }
+
+  obtenerReportes(){
+    this.aquaReportService.getReportes().subscribe(
+      (data:any) => {
+        this.reportes.push({
+          titulo: 'Total Reportes',
+          cantidad: data.length,
+          color: 'total',
+        })
+      },)
+  }
+
+  obtenerReportesFinalizados(){
+    this.aquaReportService.getReportesFinalizados().subscribe(
+      (data:any) => {
+        this.reportes.push({
+          titulo: 'Reportes Finalizados',
+          cantidad: data.length,
+          color: 'finalizados',
+        })
+      },)
+  }
+
+  obtenerReportesNoAsignados(){
+    this.aquaReportService.getReportesNoAsignados().subscribe(
+      (data:any) => {
+        this.reportes.push({
+          titulo: 'Reportes No Asignados',
+          cantidad: data.length,
+          color: 'no-asignados',
+        })
+      },)
+  }
+
 
 }

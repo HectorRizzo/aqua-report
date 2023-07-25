@@ -31,14 +31,17 @@
         </div>
 
         <div class="col-2">
-            <button mat-raised-button class="btn btn-info">
+            <button mat-raised-button class="btn btn-info"
+            (click)="modalLectura()">
+                        
                 <i class="material-icons">add</i>
                         Agregar Lectura
             </button>
         </div>
 
         <div class="col-2">
-            <button mat-raised-button class="btn btn-info">
+            <button mat-raised-button class="btn btn-info"
+            (click)="modalMedidor()">
                 <i class="material-icons">add</i>
                 <span>Agregar Medidor</span>
             </button>
@@ -57,9 +60,6 @@
                             <thead class=" text-primary">
                                 <th>
                                     ID
-                                </th>
-                                <th>
-                                    Descripción
                                 </th>
                                 <th>
                                     Fecha última lectura
@@ -85,9 +85,6 @@
                                     <ng-container *ngIf="categoriaSeleccionada && item.categoria == categoriaSeleccionada.id">
                                         <td>
                                             {{item.id}}
-                                        </td>
-                                        <td>
-                                            {{item.descripcion}}
                                         </td>
                                         <td>
                                             {{item.fechaUltimaLectura}}

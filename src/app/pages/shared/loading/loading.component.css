@@ -1,0 +1,73 @@
+/* .swal2-container{
+    z-index: 5000000000 !important;
+}
+.swal2-popup.popup-suc.active-user.loading{
+    z-index: 5000000000 !important;
+    position: absolute !important;
+} */
+/* Popup box BEGIN */
+.hover_bkgr_fricc{
+    background: rgba(0,0,0,.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 10000;
+}
+.hover_bkgr_fricc .helper{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_fricc > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: flex;
+    height: auto;
+    max-width: 270px;
+    min-height: 50px;
+    vertical-align: middle;
+    width: 100%;
+    position: relative;
+    border-radius: 8px;
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+.popupCloseButton {
+    background-color: #fff;
+    border: 3px solid #999;
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 25px;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.popupCloseButton:hover {
+    background-color: #ccc;
+}
+.trigger_popup_fricc {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+.text-inac.loading img{
+    margin-left: 3%;
+}
