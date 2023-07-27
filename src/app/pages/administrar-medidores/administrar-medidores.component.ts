@@ -4,6 +4,7 @@ import { AquaReportService } from 'app/services/aquaReport.service';
 import * as Chartist from 'chartist';
 import { ModalAgregarMedidorComponent } from '../shared/modal-agregar-medidor/modal-agregar-medidor.component';
 import { ModalAgregarLecturaComponent } from '../shared/modal-agregar-lectura/modal-agregar-lectura.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-administrar-medidores',
@@ -246,15 +247,51 @@ export class AdministrarMedidoresComponent implements OnInit {
     
   }
 
-  modalLectura(){
+  modalLectura(item?){
+    console.log(item);
     console.log("modalLectura");
     const modalAgregarLectura = this.modal.open(ModalAgregarLecturaComponent,
       { size: 'md', backdrop: false, keyboard: false });
+      modalAgregarLectura.componentInstance.lecturaBase = item ? item : null;
       modalAgregarLectura.componentInstance.resp.subscribe((data) => {
         console.log(data);
         this.obtenerLecturas();
       }
       );
+  }
+  eliminarLectura(lectura){
+    Swal.fire({
+      title: '¿Está seguro de eliminar la lectura?',
+      text: "Esta acción no se puede revertir",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      console.log(result);
+      if (result.isConfirmed) {
+        this.aquaReportService.eliminarLectura(lectura.id).subscribe(
+          (data:any) => {
+            console.log(data);
+            this.obtenerLecturas();
+            Swal.fire({
+              title: 'Lectura eliminado correctamente',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }, (error) => {
+            console.log(error);
+            Swal.fire({
+              title: 'Error al eliminar la lectura',
+              icon: 'error',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+        );
+      }
+    })
   }
 
   setDataChart(medidor){
@@ -305,7 +342,8 @@ export class AdministrarMedidoresComponent implements OnInit {
         item.fechaCreacion = item.fecha_creacion.split('T')[0],
         item.fechaProximaLectura = item.fecha_proxima_lectura.split('T')[0],
         item.personal = item.nombrePersonal + ' ' + item.apellidoPersonal,
-        item.categoria = item.estado == 'P' ? 1 : 2
+        item.categoria = item.estado == 'P' ? 1 : 2,
+        item.activo = item.repeticion == 1 ? true : false;
       });
       this.data = res.data;
       this.dataView = this.data;

@@ -13,7 +13,7 @@ declare const google: any;
 
 
 export class ModalAgregarLecturaComponent implements OnInit {
-    @Input() reporte: any;
+    @Input() lecturaBase: any;
     @Output() resp: EventEmitter<any> = new EventEmitter();
     codigoRespuestaHttp;
     loading = false;
@@ -51,6 +51,11 @@ export class ModalAgregarLecturaComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        console.log(this.lecturaBase);
+        if(this.lecturaBase){
+this.lectura.fecha = this.lecturaBase.fechaProximaLectura;
+this.lectura.activo = this.lecturaBase.repeticion;
+        }
         this.obtenerPersonal();
         this.obtenerMedidores();
     }
@@ -77,6 +82,7 @@ export class ModalAgregarLecturaComponent implements OnInit {
                 element.id = element.id_usuario;
             })
             this.personal = data;
+            if(this.lecturaBase) this.personalSeleccionado = this.personal.find((personal) => personal.id == this.lecturaBase.id_usuario_asignado);
         }
         );
     }
@@ -86,9 +92,39 @@ export class ModalAgregarLecturaComponent implements OnInit {
                 element.id = element.id_medidor;
             })
             this.medidores = res.data;
+            if(this.lecturaBase) this.medidorSeleccionado = this.medidores.find((medidor) => medidor.id == this.lecturaBase.id_medidor);
         }
         );
     }
+
+    actualizar(){
+        this.loading = true;
+        console.log(this.lectura);
+        if(!this.personalSeleccionado || !this.medidorSeleccionado || !this.lectura['fecha']){
+            this.muestraMensaje('Por favor ingrese todos los campos', 500);
+            this.loading = false;
+            return;
+        }
+        let body = {
+            id: this.lecturaBase.id,
+            medidor: this.medidorSeleccionado.id,
+            id_usuario_asignado: this.personalSeleccionado.id,
+            fechaLectura: this.lectura['fecha'],
+            repeticion: this.lectura['activo'] ? 1 : null,
+        }
+        this.aquaReportService.actualizarLectura(body,this.lecturaBase.id ).subscribe((data: any) => {
+            console.log(data);
+            this.loading = false;
+            this.muestraMensaje('Lectura actualizada correctamente', 200);
+            this.closeModal();
+            this.resp.emit();
+        }, (error) => {
+            this.loading = false;
+            this.muestraMensaje('Error al actualizar la lectura', 500);
+        }
+        );
+    }
+
 
     guardar(){
         this.loading = true;
@@ -105,7 +141,7 @@ export class ModalAgregarLecturaComponent implements OnInit {
                 medidor: this.medidorSeleccionado.id,
                 usuario: this.personalSeleccionado.id,
                 fechaLectura: this.lectura['fecha'],
-                repeticion: this.lectura['repeticion'] ? 12 : null,
+                repeticion: this.lectura['activo'] ? 1 : null,
             }
             this.aquaReportService.crearLectura(body).subscribe((data: any) => {
                 console.log(data);

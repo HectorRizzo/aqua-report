@@ -89,4 +89,12 @@ export class AquaReportService {
         return this.apiService.ApiCall(`agregarLectura`,'POST',lectura);
     }
 
+    actualizarLectura(lectura, id){
+        return this.apiService.ApiCall(`reasignarUsuarioLectura/${id}`,'PUT',lectura);
+    }
+
+    eliminarLectura(id){
+        return this.apiService.ApiCall(`eliminarLectura/${id}`,'DELETE',null);
+    }
+
 }

@@ -102,10 +102,12 @@
                                             {{item.personal}}
                                         </td>
                                         <td class="td-actions text-center justify-content-between">
-                                            <button type="button" rel="tooltip" class="btn btn-warning">
+                                            <button type="button" rel="tooltip" class="btn btn-warning"
+                                            (click)="modalLectura(item)">
                                                 <i class="material-icons">edit</i>
                                             </button>
-                                            <button type="button" rel="tooltip" class="btn btn-danger">
+                                            <button type="button" rel="tooltip" class="btn btn-danger"
+                                            (click)="eliminarLectura(item)">
                                                 <i class="material-icons">delete</i>
                                             </button>
                                         </td>
