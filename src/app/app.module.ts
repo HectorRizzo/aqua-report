@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AuthGuard } from './services/authGuard.service';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     AdminLayoutComponent,
 
   ],
-  providers: [],
+  providers: [AuthGuard],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

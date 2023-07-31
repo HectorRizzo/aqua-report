@@ -119,34 +119,18 @@
             </div>
         </div>
 
-        <div class="col-12">
+        <!-- Grafico-->
+        <div class="col-lg-12 col-md-12">
             <div class="card">
-                <div class="card-header card-chart card-header-warning">
-                    <div class="ct-chart" id="dailySalesChart"></div>
+                <div class="mt-3">
+                    <iframe id="frame"
+                    title="Report Section" 
+                    height="500px"
+                    width="100%"
+                    src="https://app.powerbi.com/view?r=eyJrIjoiNDAzMTAwZjEtNDFlNi00ZjIxLTk4ZDMtYzA0NmY3MGNjYmYwIiwidCI6ImI3YWY4Y2FmLTgzZDgtNDY0NC04NWFlLTMxN2M1NDUyMjNjMSIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
                 </div>
-                <div class="card-body d-flex justify-content-between">
-                    <h4 class="card-title">Evolución del medidor</h4>
-                    <div class="dropdown">
-                        <button href="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" >
-                            <span *ngIf="medidorSeleccionado!=undefined">
-                                {{medidorSeleccionado.nombre}}
-                            </span>
-                            <b class="caret"></b>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li *ngFor="let medidor of medidores">
-                                <a (click)="setDataChart(medidor)">
-                                    {{medidor.nombre}}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                
             </div>
         </div>
-
 
       </div>
   </div>

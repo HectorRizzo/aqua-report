@@ -1,0 +1,50 @@
+<div class="row justify-content-center align-items-center h-100 w-100">
+    <app-loading *ngIf="loading"></app-loading>
+    <div class="col-6 mt-4">
+        <div class="card login">
+            <div class="card-header">
+                <h4 class="card-title d-flex justify-content-center font-weight-bold">Aqua Report</h4>
+                <div class="d-flex justify-content-center">
+                    <img src="../../../assets/img/logo.svg" alt="logo" class="logo img-fluid" width="600px" height="600px">
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- <form> -->
+                <div class="row">
+                    <div class="input-title col-md-12 justify-content-center">
+                        Correo Electrónico
+                    </div>
+                    <div class="input-text col-md-12 justify-content-center">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Correo electrónico" 
+                            [(ngModel)]="correo"
+                            type="email">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-title col-md-12 justify-content-center">
+                        Contraseña
+                    </div>
+                    <div class="input-text col-md-12 justify-content-center">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Contraseña"                             
+                            [(ngModel)]="password"
+                            [type]="hide ? 'password' : 'text'">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                <i class="material-icons">{{hide ? 'visibility_off' : 'visibility'}}</i>
+                              </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <button mat-raised-button type="submit" class="btn btn-danger btn-lg justify-content-center"
+                (click)="login()"
+                >Iniciar Sesión</button>
+                </div>
+                <div class="clearfix"></div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</div>

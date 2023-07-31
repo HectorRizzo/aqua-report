@@ -26,6 +26,9 @@ import { ModalAgregarLecturaComponent } from 'app/pages/shared/modal-agregar-lec
 import { ModalAgregarMedidorComponent } from 'app/pages/shared/modal-agregar-medidor/modal-agregar-medidor.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { LoginComponent } from 'app/pages/login/login.component';
+import { CerrarSesionComponent } from 'app/pages/cerrar-sesion/cerrar-sesion.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -39,6 +42,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatTooltipModule,
   ],
@@ -55,7 +59,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     ModalReporteComponent,
     ModalUsuarioComponent,
     ModalAgregarLecturaComponent,
+    LoginComponent,
     ModalAgregarMedidorComponent,
+    CerrarSesionComponent,
     NotificationsComponent,
     UpgradeComponent,
   ]

@@ -64,37 +64,37 @@ export class AdministrarReportesComponent implements OnInit {
     this.obtenerReportes();
 
     
-    var datawebsiteViewsChart = {
-      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
-      series: [
-        [542, 443, 320, 780, 553, 453, 326]
+    // var datawebsiteViewsChart = {
+    //   labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+    //   series: [
+    //     [542, 443, 320, 780, 553, 453, 326]
 
-      ]
-    };
-    var optionswebsiteViewsChart = {
-        axisX: {
-            showGrid: true,
-            offset: 50,
-            position : 'end'
-        },
-        low: 0,
-        high: 1000,
-        chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
-    };
-    let responsiveOptions: any[] = [
-      ['screen and (max-width: 640px, max-height:1000px)', {
-        seriesBarDistance: 0,
-        axisX: {
-          labelInterpolationFnc: function (value) {
-            return value[0];
-          }
-        }
-      }] 
-    ];
-    var websiteViewsChart = new Chartist.Bar('#chartReportes', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
+    //   ]
+    // };
+    // var optionswebsiteViewsChart = {
+    //     axisX: {
+    //         showGrid: true,
+    //         offset: 50,
+    //         position : 'end'
+    //     },
+    //     low: 0,
+    //     high: 1000,
+    //     chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
+    // };
+    // let responsiveOptions: any[] = [
+    //   ['screen and (max-width: 640px, max-height:1000px)', {
+    //     seriesBarDistance: 0,
+    //     axisX: {
+    //       labelInterpolationFnc: function (value) {
+    //         return value[0];
+    //       }
+    //     }
+    //   }] 
+    // ];
+    // var websiteViewsChart = new Chartist.Bar('#chartReportes', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
 
-    //start animation for the Emails Subscription Chart
-    this.startAnimationForBarChart(websiteViewsChart);
+    // //start animation for the Emails Subscription Chart
+    // this.startAnimationForBarChart(websiteViewsChart);
   }
 
   obtenerReportes(){

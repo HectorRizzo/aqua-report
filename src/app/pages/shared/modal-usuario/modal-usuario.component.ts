@@ -19,12 +19,17 @@ export class ModalUsuarioComponent implements OnInit {
     loading = false;
     mensaje = '';
     mostrarMensaje = false;
+    tiposUsuario = [];
+    tipoSeleccionado ;
     constructor(
     private activeModal: NgbActiveModal,
     private aquaReportService: AquaReportService,
     ) { }
 
     ngOnInit(): void {
+        console.log(this.usuario);
+        this.obtenerTiposUsuario();
+        this.usuario.activo = this.usuario.estado == 'Activo' ? true : false;
     }
 
     actualizarUsuario(usuario) {
@@ -33,7 +38,7 @@ export class ModalUsuarioComponent implements OnInit {
             nombre: usuario.nombre,
             apellido: usuario.apellido,
             correo: usuario.correo,
-            tipo: usuario.tipo == 'ADMINISTRADOR' ? 3 : usuario.tipo == 'USUARIO' ? 1 : 2,
+            tipo: this.tipoSeleccionado.id,
             estado: usuario.activo ? 'A' : 'I',
         }
         this.aquaReportService.updateUsuario(body, usuario.id).subscribe((data: any) => {
@@ -55,6 +60,21 @@ export class ModalUsuarioComponent implements OnInit {
 
     closeModal() {
         this.activeModal.close();
+    }
+    obtenerTiposUsuario(){
+        this.aquaReportService.getTiposUsuario().subscribe((res:any) => {
+            console.log(res);
+            this.tiposUsuario = res.data;
+            this.tipoSeleccionado = this.tiposUsuario.filter((item) => {
+                return item.id == this.usuario.id_tipo_usuario;
+            }
+            )[0];
+        }
+        );
+    }
+    changeTipo(tipo){
+        console.log(tipo);
+        this.tipoSeleccionado = tipo;
     }
 
     muestraMensaje(msg: string, code: string | number) {

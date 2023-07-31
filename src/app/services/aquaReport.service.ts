@@ -20,6 +20,14 @@ export class AquaReportService {
         this.loadData = new Subject<any>();
     }
 
+    getUsuario(){
+        return JSON.parse(localStorage.getItem('usuarioAqua'));
+    }
+
+    setUsuario(usuario){
+        localStorage.setItem('usuarioAqua', JSON.stringify(usuario));
+    }
+
     //Reportes
 
     getReportes(){
@@ -60,6 +68,10 @@ export class AquaReportService {
         return this.apiService.ApiCall(`editarUsuario/${id}`,'PUT',usuario );
     }
 
+    updatePerfil( usuario, id){
+        return this.apiService.ApiCall(`editarPerfil/${id}`,'PUT',usuario );
+    }
+
     deleteUsuario(id){
         return this.apiService.ApiCall(`eliminarUsuario/${id}`,'DELETE',null);
     }
@@ -95,6 +107,11 @@ export class AquaReportService {
 
     eliminarLectura(id){
         return this.apiService.ApiCall(`eliminarLectura/${id}`,'DELETE',null);
+    }
+
+    //login
+    login(body){
+        return this.apiService.ApiCall(`login`,'POST',body);
     }
 
 }

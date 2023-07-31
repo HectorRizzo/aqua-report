@@ -8,15 +8,16 @@ import { AdministrarReportesComponent } from '../../pages/administrar-reportes/a
 import { MapsComponent } from '../../pages/shared/maps/maps.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
+import { CerrarSesionComponent } from 'app/pages/cerrar-sesion/cerrar-sesion.component';
+
 
 export const AdminLayoutRoutes: Routes = [
-
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'table-list',     component: AdministrarMedidoresComponent },
-    { path: 'typography',     component: GestionarUsuariosComponent },
-    { path: 'icons',          component: AdministrarReportesComponent },
-    { path: 'maps',           component: MapsComponent },
-    { path: 'notifications',  component: NotificationsComponent },
-    { path: 'upgrade',        component: UpgradeComponent },
+    { path: 'perfil',   component: UserProfileComponent },
+    { path: 'medidores',     component: AdministrarMedidoresComponent },
+    { path: 'usuarios',     component: GestionarUsuariosComponent },
+    { path: 'reportes',          component: AdministrarReportesComponent },
+    { path: 'cerrar-sesion',        component: CerrarSesionComponent },
+   
 ];

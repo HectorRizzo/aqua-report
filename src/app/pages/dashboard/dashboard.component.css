@@ -14,3 +14,10 @@
     color: #fff;
 }
 
+ 
+
+#frame .visualContainerHost{
+    zoom: 2.75;
+    -moz-transform: scale(2.75);
+     -moz-transform-origin: 0 0;
+}

@@ -1,4 +1,5 @@
 <div class="main-content">
+  <app-loading *ngIf="loading"></app-loading>
   <div class="container-fluid">
       <div class="row">
           <div class="col-md-8">
@@ -11,7 +12,9 @@
                             </div>
                               <div class="col-md-10">
                                 <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Nombres" type="text">
+                                  <input matInput placeholder="Nombres" type="text"
+                                  [value]="usuario.nombre"
+                                  (input)="usuario.nombre=$event.target.value">
                                 </mat-form-field>
                               </div>
                           </div>
@@ -21,7 +24,9 @@
                             </div>
                             <div class="col-md-10">
                               <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Apellidos" type="text">
+                                <input matInput placeholder="Apellidos" type="text"
+                                [value]="usuario.correo" 
+                                (input)="usuario.correo=$event.target.value">
                               </mat-form-field>
                             </div>
                           </div>
@@ -31,22 +36,46 @@
                             </div>
                             <div class="col-md-10">
                               <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Correo electrónico" type="email">
+                                <input matInput placeholder="Correo electrónico" type="email"
+                                [value]="usuario.correo"
+                                (input)="usuario.correo=$event.target.value">
                               </mat-form-field>
                             </div>
                           </div>
                           <div class="row">
-                            <div class="col-md-12">
-                              Contraseña
+                            <div class="col-12 pl-1">
+                              <div class="d-flex align-items-center justify-content-start">
+                                <label class="m-2 font-weight-bold" for="activo">Actualizar Contraseña</label>
+                                <input class="m-2" type="checkbox" id="activo" name="activo" value="activo" [(ngModel)]="usuario.actualizarPassword">
+                              </div>
                             </div>
-                            <div class="col-md-10">
+
+                            <div class="col-md-8">
                               <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Actualizar contraseña" type="password">
+                                <input matInput placeholder="Contraseña Actual" [type]="hideActual ? 'password' : 'text'"
+                                [(ngModel)]="usuario.passwordActual"
+                                (input)="usuario.passwordActual=$event.target.value"
+                                [disabled]="!usuario.actualizarPassword">
+                                <button mat-icon-button matSuffix (click)="hideActual = !hideActual" [attr.aria-label]="'Ocultar Contraseña'" [attr.aria-pressed]="hideActual">
+                                  <i class="material-icons">{{hideActual ? 'visibility_off' : 'visibility'}}</i>
+                                </button>
+                              </mat-form-field>
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Nueva contraseña" [type]="hideNueva ? 'password' : 'text'"
+                                [(ngModel)]="usuario.passwordNueva"
+                                (input)="usuario.passwordNueva=$event.target.value"
+                                [disabled]="!usuario.actualizarPassword">
+                                <button mat-icon-button matSuffix (click)="hideNueva = !hideNueva" [attr.aria-label]="'Ocultar contraseña'" [attr.aria-pressed]="hideNueva">
+                                  <i class="material-icons">{{hideNueva ? 'visibility_off' : 'visibility'}}</i>
+                                </button>
                               </mat-form-field>
                             </div>
+                            
                           </div>
  
-                          <button mat-raised-button type="submit" class="btn btn-danger btn-lg">Update Profile</button>
+                          <button mat-raised-button type="submit" class="btn btn-danger btn-lg"
+                          (click)="actualizarUsuario()"
+                          >Actualizar Perfil</button>
                           <div class="clearfix"></div>
                       </form>
                   </div>

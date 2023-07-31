@@ -43,10 +43,10 @@
                               </mat-form-field>
                             </div>
                           </div>
-                          <div class="row">
+                          <div class="row ml-2">
                             <mat-form-field>
                               <mat-label>Contraseña</mat-label>
-                              <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="usuario.contrasenia">
+                              <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="usuario.password">
                               <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                                 <i class="material-icons">{{hide ? 'visibility_off' : 'visibility'}}</i>
                               </button>
