@@ -19,7 +19,7 @@
                             </div>
                               <div class="col-md-10">
                                 <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Nombres" id="nombre" type="text" [value]="reporte.id" (input)="reporte.id=$event.target.value">
+                                  <input matInput  id="nombre" type="text" [value]="reporte.id" (input)="reporte.id=$event.target.value">
                                 </mat-form-field>
                               </div>
                           </div>
@@ -29,7 +29,7 @@
                             </div>
                             <div class="col-md-10">
                               <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Apellidos" type="text" [value]="reporte.fechaCreacion" (input)="reporte.fechaCreacion=$event.target.value">
+                                <input matInput  type="text" [value]="reporte.fechaCreacion" (input)="reporte.fechaCreacion=$event.target.value">
                               </mat-form-field>
                             </div>
                           </div>
@@ -39,9 +39,14 @@
                             </div>
                             <div class="col-md-10">
                               <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Correo electrónico" type="email" [value]="reporte.descripcion" (input)="reporte.correo=$event.target.value">
+                                <input matInput  type="email" [value]="reporte.descripcion" (input)="reporte.correo=$event.target.value">
                               </mat-form-field>
                             </div>
+                          </div>
+                          <div class="row mb-3">
+                            <div class="col-md-12">
+                              <img src="{{reporte.imagen}}" alt="Imagen" class="img-fluid" width="300px" height="400px">
+                              </div>
                           </div>
 
                           <div class="row">
@@ -83,8 +88,10 @@
                             </div >
                           </div>
   
-                          <button mat-raised-button type="submit" class="btn btn-info btn-lg" (click)="asignarReporte()">Asignar</button>
-                          <button mat-raised-button type="submit" class="btn btn-danger btn-lg" (click)="cancelar()">Cancelar</button>
+                          <div class="col-12 d-flex justify-content-between">
+                            <button mat-raised-button type="submit" class="btn btn-info btn-lg" (click)="asignarReporte()">Asignar</button>
+                            <button mat-raised-button type="submit" class="btn btn-danger btn-lg" (click)="cancelar()">Cancelar</button>
+                          </div>
                           <div class="clearfix"></div>
                       </form>
                   </div>
