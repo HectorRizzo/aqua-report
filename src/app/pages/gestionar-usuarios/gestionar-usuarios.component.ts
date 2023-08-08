@@ -33,7 +33,7 @@ export class GestionarUsuariosComponent implements OnInit {
   buscarUsuario(){
     console.log(this.usuarioBusqueda);
     this.dataView = this.usuarios.filter((item) => {
-      return item.nombre.toLowerCase().includes(this.usuarioBusqueda.toLowerCase()) || item.apellido.toLowerCase().includes(this.usuarioBusqueda.toLowerCase());
+      return item.nombre.toLowerCase().includes(this.usuarioBusqueda.toLowerCase());
     }
     );
   }
@@ -44,8 +44,9 @@ export class GestionarUsuariosComponent implements OnInit {
         element.tipo = this.capitalizar(element.tipo);
         let est = element.estado == 'A' ? 'Activo' : 'Inactivo';
         element.estado = this.capitalizar(est);
-        element.id = element.id_usuario;
-      }
+        element.id = element.id;
+        element.nombre = element.nombre;
+        }
       );
       this.cantidad = {
         administradores: data.filter((item) => {

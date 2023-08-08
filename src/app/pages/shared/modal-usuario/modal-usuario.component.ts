@@ -36,7 +36,6 @@ export class ModalUsuarioComponent implements OnInit {
         this.loading = true;
         let body = {
             nombre: usuario.nombre,
-            apellido: usuario.apellido,
             correo: usuario.correo,
             tipo: this.tipoSeleccionado.id,
             estado: usuario.activo ? 'A' : 'I',

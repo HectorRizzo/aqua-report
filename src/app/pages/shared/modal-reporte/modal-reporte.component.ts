@@ -63,8 +63,8 @@ export class ModalReporteComponent implements OnInit {
     obtenerPersonal() {
         this.aquaReportService.getPersonal().subscribe((data: any) => {
             data.forEach(element => {
-                element.nombre = element.nombre + ' ' + element.apellido;
-                element.id = element.id_usuario;
+                element.nombre = element.nombre;
+                element.id = element.id;
             })
             this.personal = data;
         }

@@ -33,12 +33,11 @@ export class LoginComponent implements OnInit {
         this.aquaReportService.login(body).subscribe((res: any) => {
             this.loading = false;
             const usuario = {
-                nombre: res.data.nombre,
-                apellido: res.data.apellido,
-                correo: res.data.correo,
+                nombre: res.data.name,
+                correo: res.data.email,
                 tipo: res.data.tipo,
                 estado: res.data.estado,
-                id_usuario: res.data.id_usuario,
+                id: res.data.id,
                 id_tipo_usuario: res.data.id_tipo_usuario,
             }
             localStorage.setItem('usuarioAqua', JSON.stringify(usuario));

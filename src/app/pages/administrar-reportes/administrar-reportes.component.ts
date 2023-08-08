@@ -73,7 +73,7 @@ export class AdministrarReportesComponent implements OnInit {
           element.categoria = element.estado_nuevo == 'C' ? 1 : element.estado_nuevo == 'F' ? 3 : 2;
           element.estado = element.estado_nuevo == 'C' ? 'Asignado' : element.estado_nuevo == 'F' ? 'Finalizado' : 'Pendiente';
           element.prioridad = element.prioridad == 'A' ? 'Alta' : element.prioridad == 'M' ? 'Media' : 'Baja';
-          element.personalAsignado = element.nombrePersonal + ' ' + element.apellidoPersonal;
+          element.personalAsignado = element.nombrePersonal;
         }
         );
         this.data = data;

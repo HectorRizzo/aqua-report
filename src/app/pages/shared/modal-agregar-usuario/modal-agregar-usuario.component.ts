@@ -35,14 +35,13 @@ export class ModalAgregarUsuarioUsuarioComponent implements OnInit {
     crearUsuario(usuario) {
         console.log(usuario);
         this.loading = true;
-        if(usuario.nombre == '' || usuario.nombre ==undefined || usuario.apellido == '' || usuario.apellido==undefined || usuario.correo == '' || usuario.correo == undefined || this.tipoSeleccionado == undefined || usuario.password == '' || usuario.password == undefined){
+        if(usuario.nombre == '' || usuario.nombre ==undefined || usuario.correo == '' || usuario.correo == undefined || this.tipoSeleccionado == undefined || usuario.password == '' || usuario.password == undefined){
             this.muestraMensaje('Debe llenar todos los campos', 500);
             this.loading = false;
             return;
         }
         let body = {
             nombre: usuario.nombre,
-            apellido: usuario.apellido,
             correo: usuario.correo,
             password: usuario.password,
             tipo: this.tipoSeleccionado.id,

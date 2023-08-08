@@ -341,7 +341,7 @@ export class AdministrarMedidoresComponent implements OnInit {
         item.ultimaLectura = item.ultima_lectura,
         item.fechaCreacion = item.fecha_creacion.split('T')[0],
         item.fechaProximaLectura = item.fecha_proxima_lectura.split('T')[0],
-        item.personal = item.nombrePersonal + ' ' + item.apellidoPersonal,
+        item.personal = item.nombrePersonal,
         item.categoria = item.estado == 'P' ? 1 : 2,
         item.activo = item.repeticion == 1 ? true : false;
       });

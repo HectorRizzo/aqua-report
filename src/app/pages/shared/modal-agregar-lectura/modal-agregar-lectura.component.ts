@@ -54,7 +54,8 @@ export class ModalAgregarLecturaComponent implements OnInit {
         console.log(this.lecturaBase);
         if(this.lecturaBase){
 this.lectura.fecha = this.lecturaBase.fechaProximaLectura;
-this.lectura.activo = this.lecturaBase.repeticion;
+this.lectura.activo = this.lecturaBase.repeticion > 0;
+this.lectura.dias = this.lecturaBase.repeticion;
         }
         this.obtenerPersonal();
         this.obtenerMedidores();
@@ -78,8 +79,7 @@ this.lectura.activo = this.lecturaBase.repeticion;
     obtenerPersonal() {
         this.aquaReportService.getPersonal().subscribe((data: any) => {
             data.forEach(element => {
-                element.nombre = element.nombre + ' ' + element.apellido;
-                element.id = element.id_usuario;
+                element.nombre = element.nombre;
             })
             this.personal = data;
             if(this.lecturaBase) this.personalSeleccionado = this.personal.find((personal) => personal.id == this.lecturaBase.id_usuario_asignado);
@@ -110,7 +110,7 @@ this.lectura.activo = this.lecturaBase.repeticion;
             medidor: this.medidorSeleccionado.id,
             id_usuario_asignado: this.personalSeleccionado.id,
             fechaLectura: this.lectura['fecha'],
-            repeticion: this.lectura['activo'] ? 1 : null,
+            repeticion: this.lectura['activo'] ? this.lectura['dias'] : null,
         }
         this.aquaReportService.actualizarLectura(body,this.lecturaBase.id ).subscribe((data: any) => {
             console.log(data);
@@ -129,6 +129,7 @@ this.lectura.activo = this.lecturaBase.repeticion;
     guardar(){
         this.loading = true;
         console.log(this.lectura);
+        console.log(this.personalSeleccionado);
         if(!this.personalSeleccionado || !this.medidorSeleccionado || !this.lectura['fecha']){
             this.muestraMensaje('Por favor, ingrese todos los campos', 500);
             this.loading = false;
