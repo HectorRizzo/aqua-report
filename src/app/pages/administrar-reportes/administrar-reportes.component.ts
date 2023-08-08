@@ -62,39 +62,6 @@ export class AdministrarReportesComponent implements OnInit {
     this.categoriaSeleccionada = this.categoria[0];
 
     this.obtenerReportes();
-
-    
-    // var datawebsiteViewsChart = {
-    //   labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
-    //   series: [
-    //     [542, 443, 320, 780, 553, 453, 326]
-
-    //   ]
-    // };
-    // var optionswebsiteViewsChart = {
-    //     axisX: {
-    //         showGrid: true,
-    //         offset: 50,
-    //         position : 'end'
-    //     },
-    //     low: 0,
-    //     high: 1000,
-    //     chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
-    // };
-    // let responsiveOptions: any[] = [
-    //   ['screen and (max-width: 640px, max-height:1000px)', {
-    //     seriesBarDistance: 0,
-    //     axisX: {
-    //       labelInterpolationFnc: function (value) {
-    //         return value[0];
-    //       }
-    //     }
-    //   }] 
-    // ];
-    // var websiteViewsChart = new Chartist.Bar('#chartReportes', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-
-    // //start animation for the Emails Subscription Chart
-    // this.startAnimationForBarChart(websiteViewsChart);
   }
 
   obtenerReportes(){
@@ -181,6 +148,7 @@ export class AdministrarReportesComponent implements OnInit {
     });
     modalMap.componentInstance.lat = reporte.latitud;
     modalMap.componentInstance.lon = reporte.longitud;
+    modalMap.componentInstance.reporte = reporte;
     modalMap.componentInstance.singleMarker = true;
   }
 
@@ -190,7 +158,10 @@ export class AdministrarReportesComponent implements OnInit {
       markers.push({
         lat: element.latitud,
         lng: element.longitud,
-        label: element.id,
+        label: `<b>ID: </b> ${element.id} <br>
+        <b>Descripción: </b> ${element.descripcion} <br>
+        <b>Fecha: </b> ${element.fechaCreacion} <br>
+        <b>Estado: </b> ${element.estado} <br>`,
         draggable: false
       });
     });

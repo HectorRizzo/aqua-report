@@ -77,6 +77,9 @@
                                     Personal asignado
                                 </th>
                                 <th>
+                                    Repetición de lectura
+                                </th>
+                                <th>
                                     Acciones
                                 </th>
                             </thead>
@@ -101,6 +104,14 @@
                                         <td class="">
                                             {{item.personal}}
                                         </td>
+                                        <td *ngIf="item.repeticion; else noRepeticion">
+                                            Cada {{item.repeticion}} días
+                                        </td>
+                                        <ng-template #noRepeticion>
+                                            <td>
+                                                No
+                                            </td>
+                                        </ng-template>
                                         <td class="td-actions text-center justify-content-between">
                                             <button type="button" rel="tooltip" class="btn btn-warning"
                                             (click)="modalLectura(item)">

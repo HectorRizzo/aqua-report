@@ -130,7 +130,12 @@ this.lectura.activo = this.lecturaBase.repeticion;
         this.loading = true;
         console.log(this.lectura);
         if(!this.personalSeleccionado || !this.medidorSeleccionado || !this.lectura['fecha']){
-            this.muestraMensaje('Por favor ingrese todos los campos', 500);
+            this.muestraMensaje('Por favor, ingrese todos los campos', 500);
+            this.loading = false;
+            return;
+        }
+        if(this.lectura['activo'] && (!this.lectura['dias'] || this.lectura['dias'] == 0)){
+            this.muestraMensaje('Por favor, si desea activar la repeticion, ingrese los dias', 500);
             this.loading = false;
             return;
         }
@@ -141,7 +146,7 @@ this.lectura.activo = this.lecturaBase.repeticion;
                 medidor: this.medidorSeleccionado.id,
                 usuario: this.personalSeleccionado.id,
                 fechaLectura: this.lectura['fecha'],
-                repeticion: this.lectura['activo'] ? 1 : null,
+                repeticion: this.lectura['activo'] ? this.lectura['dias'] : null,
             }
             this.aquaReportService.crearLectura(body).subscribe((data: any) => {
                 console.log(data);

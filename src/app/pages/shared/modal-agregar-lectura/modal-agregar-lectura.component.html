@@ -71,9 +71,16 @@
                               <input class="m-2" type="checkbox" id="activo" name="activo"
                               [(ngModel)]="lectura.activo"
                               >
-
+                            </div>
+                            <div class="col-12 d-flex align-items-center justify-content-start">
+                              <label class="m-2" for="activo"> ¿Cada cuántos días? </label>
+                              <input class="m-2" type="number" id="dias" name="dias"
+                              [disabled]="!lectura.activo" 
+                              [(ngModel)]="lectura.dias" min="1" max="31" 
+                              >
                             </div>
                           </div>
+
   
                           <button *ngIf="!lecturaBase" mat-raised-button type="submit" class="btn btn-info btn-lg" (click)="guardar()">
                             <span >Guardar</span>

@@ -1,8 +1,16 @@
+body{
+    background: #2A3F54;
+    background-color: none;
+    box-shadow: none;
+    color: #fff;
+    font-family: 'Lobster', cursive !important;
+}	
 .login{
     background: #2A3F54 !important;
     background-color: none;
     box-shadow: none;
     color: #fff;   
+    height: 100vh;
 }
 h4{
     color: #fff;
@@ -30,5 +38,17 @@ h4{
     color: #fff;
     font-size: 16px;
     font-weight: 300;
+}
+.card{
+    background: #2A3F54 !important;
+    background-color: none;
+    box-shadow: none;
+    color: #fff;
+}
+.text-button{
+    color: #fff !important;
+}
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label{
+    color: #a6a6a6 !important;
 }
 

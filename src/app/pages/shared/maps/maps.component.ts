@@ -33,6 +33,7 @@ export class MapsComponent implements OnInit {
     @Input() singleMarker: boolean = true;
     @Input() titulo: string = TITULO ;
     @Input() zoom: number = 18;
+    @Input() reporte: any;
     @Input() permitirSeleccionar: boolean = false;
 
     @Output() latLon = new EventEmitter<any>();
@@ -63,7 +64,6 @@ export class MapsComponent implements OnInit {
         //iconos personalizados
         var iconDefault = L.icon({
           iconRetinaUrl,
-          iconUrl,
           shadowUrl,
           iconSize: [25, 41],
           iconAnchor: [12, 41],
@@ -90,24 +90,24 @@ export class MapsComponent implements OnInit {
           this.map.on('click', this.setearMarcador.bind(this));
         }else{
           if(this.singleMarker){
-            const mark = L.marker([this.lat, this.lon]).bindPopup(this.titulo);
+            const mark = L.marker([this.lat, this.lon]).bindPopup(
+              `<b>ID: </b> ${this.reporte.id} <br>
+              <b>Descripción: </b> ${this.reporte.descripcion} <br>
+              <b>Fecha: </b> ${this.reporte.fechaCreacion} <br>
+              <b>Estado: </b> ${this.reporte.estado} <br>`
+            );
             mark.addTo(this.map);
           }else{
             this.markers.forEach((marker: Marker) => {
-              const m = L.marker([marker.lat, marker.lng], { draggable: marker.draggable });
+              console.log(marker);
+              const m = L.marker([marker.lat, marker.lng], { draggable: marker.draggable }).bindPopup(
+                `${marker.label}`);
               m.addTo(this.map);
             });
           }
         }
    
-      //ruta
-    //   L.Routing.control({
-    //     waypoints: [
-    //         L.latLng(57.74, 11.94),
-    //         L.latLng(57.6792, 11.949)
-    //     ],
-    //     routeWhileDragging: true
-    // }).addTo(this.map);
+
         tiles.addTo(this.map);
     }
 
@@ -121,7 +121,10 @@ export class MapsComponent implements OnInit {
       console.log(e);
         this.latSeleccionada = e.latlng.lat;
         this.lonSeleccionada = e.latlng.lng;
-        let mark = L.marker([this.latSeleccionada, this.lonSeleccionada]).bindPopup('Ubicación seleccionada');
+        let mark = L.marker([this.latSeleccionada, this.lonSeleccionada]).bindPopup(
+          `<b>Latitud: </b> ${this.latSeleccionada} <br>
+          <b>Longitud: </b> ${this.lonSeleccionada} <br>`
+        );
         mark.addTo(this.map);
     }
 
