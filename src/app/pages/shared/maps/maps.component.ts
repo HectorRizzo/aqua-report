@@ -91,7 +91,7 @@ export class MapsComponent implements OnInit {
         }else{
           if(this.singleMarker){
             const mark = L.marker([this.lat, this.lon]).bindPopup(
-              `<b>ID: </b> ${this.reporte.id} <br>
+              `<b>N° Reporte: </b> ${this.reporte.id} <br>
               <b>Descripción: </b> ${this.reporte.descripcion} <br>
               <b>Fecha: </b> ${this.reporte.fechaCreacion} <br>
               <b>Estado: </b> ${this.reporte.estado} <br>`

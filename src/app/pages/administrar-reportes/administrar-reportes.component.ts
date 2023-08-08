@@ -158,7 +158,7 @@ export class AdministrarReportesComponent implements OnInit {
       markers.push({
         lat: element.latitud,
         lng: element.longitud,
-        label: `<b>ID: </b> ${element.id} <br>
+        label: `<b>N° Reporte: </b> ${element.id} <br>
         <b>Descripción: </b> ${element.descripcion} <br>
         <b>Fecha: </b> ${element.fechaCreacion} <br>
         <b>Estado: </b> ${element.estado} <br>`,

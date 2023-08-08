@@ -68,7 +68,7 @@
                             <table class="table">
                                 <thead class=" text-primary">
                                     <th>
-                                        ID
+                                        N° Reporte
                                     </th>
                                     <th class="col-3">
                                         Descripción
@@ -95,7 +95,7 @@
                                 <tbody>
                                     <tr *ngFor="let item of data">
                                         <ng-container *ngIf="categoriaSeleccionada && item.categoria == categoriaSeleccionada.id">
-                                            <td>
+                                            <td class="text-center">
                                                 {{item.id}}
                                             </td>
                                             <td class="col-3">
