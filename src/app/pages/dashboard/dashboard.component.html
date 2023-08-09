@@ -1,4 +1,5 @@
 <div class="main-content">
+    <app-loading *ngIf="loading"></app-loading>
   <div class="container-fluid">
       <div class="row">
           <div *ngFor="let card of reportes" class="col-lg-4 col-md-6 col-sm-6">
@@ -44,7 +45,29 @@
                 </div>
             </div>
         </div>
-        
+        <div class="col-lg-6 col-md-6">
+            <div class="card card-bar">
+                <div class="card-header card-header-success">
+                    <h4 class="card-title">Reportes Por Meses</h4>
+                </div>
+                <div class="row mx-2">
+                    <mat-form-field class="col-4">
+                        <mat-label>Meses</mat-label>
+                        <mat-select [formControl]="meses" multiple>
+                          <mat-option *ngFor="let topping of listaMeses" [value]="topping">{{topping}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div class="col-5">
+                    </div>
+                    <button mat-raised-button class="col-2 btn btn-danger"
+                    (click)="filtrarPrioridad()">
+                        <span>Filtrar</span>
+                    </button>
+                </div>
+                <div class="promPrioridad"></div>
+
+            </div>
+        </div>
         <div class="col-lg-6 col-md-12">
             <div class="card">
                 <div class="mt-3">

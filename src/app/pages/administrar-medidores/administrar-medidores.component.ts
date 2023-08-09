@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AquaReportService } from 'app/services/aquaReport.service';
 import * as Chartist from 'chartist';
@@ -6,6 +6,8 @@ import { ModalAgregarMedidorComponent } from '../shared/modal-agregar-medidor/mo
 import { ModalAgregarLecturaComponent } from '../shared/modal-agregar-lectura/modal-agregar-lectura.component';
 import Swal from 'sweetalert2';
 
+import * as d3 from 'd3';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-administrar-medidores',
   templateUrl: './administrar-medidores.component.html',
@@ -131,8 +133,88 @@ export class AdministrarMedidoresComponent implements OnInit {
   ];
 
 
+ // escalas dinamicas en funcion de su contenedor
+ private width = 0;
+ private height = 400;
+ private margin = 50;
+ public svg;
+ public svgInner;
+ public yScale;
+ public xScale;
+ public xAxis;
+ public yAxis;
+ public lineGroup;
+ public dots;
 
+ dataMedidor = [
+  { 
+    medidor: 'EFC-001',
+    mes: 'Enero',
+    valor : 100
+  },
+  {
+    medidor: 'EFC-001',
+    mes: 'Febrero',
+    valor : 200
+  },
+  {
+    medidor: 'EFC-001',
+    mes: 'Marzo',
+    valor : 300
+  },
+  {
+    medidor: 'EFC-001',
+    mes: 'Abril',
+    valor : 400
+  },
+  {
+    medidor: 'EFC-002',
+    mes: 'Enero',
+    valor : 78
+  },
+  {
+    medidor: 'EFC-002',
+    mes: 'Febrero',
+    valor : 97
+  },
+  {
+    medidor: 'EFC-002',
+    mes: 'Marzo',
+    valor : 100
+  },
+  {
+    medidor: 'EFC-002',
+    mes: 'Abril',
+    valor : 34
+  },
+  {
+    medidor: 'EFC-003',
+    mes: 'Enero',
+    valor : 100
+  },
+  {
+    medidor: 'EFC-003',
+    mes: 'Febrero',
+    valor : 400
+  },
+  {
+    medidor: 'EFC-003',
+    mes: 'Marzo',
+    valor : 500
+  },
+  {
+    medidor: 'EFC-003',
+    mes: 'Abril',
+    valor : 60
+  }
+];
+dataMedidorSeleccionado = [
+];
+meses = new FormControl('');
+listaMeses: string[] = ['Enero', 'Febrero', 'Marzo', 'Abril'];
 
+medidoresDropdown = new FormControl('');
+listaMedidores: string[] = ['EFC-001', 'EFC-002', 'EFC-003'];
   categoria = [
     {id: 1, nombre: 'Pendientes'},
     {id: 2, nombre: 'Finalizados'},
@@ -144,7 +226,8 @@ export class AdministrarMedidoresComponent implements OnInit {
   dataView: any;
   constructor(
     private aquaReportService: AquaReportService,
-    private modal: NgbModal
+    private modal: NgbModal,
+    private viewContainerRef: ViewContainerRef
   ) { }
   
   startAnimationForBarChart(chart){
@@ -196,7 +279,14 @@ export class AdministrarMedidoresComponent implements OnInit {
     
     // start animation for the Completed Tasks Chart - Line Chart
     this.startAnimationForLineChart(completedTasksChart);
+    
+    this.dataMedidorSeleccionado = this.dataMedidor.filter((item) => {
+      return item.medidor == 'EFC-001';
     }
+    );
+    this.createSvgEtapas();
+    }
+    
   startAnimationForLineChart(chart){
     let seq: any, delays: any, durations: any;
     seq = 0;
@@ -349,4 +439,162 @@ export class AdministrarMedidoresComponent implements OnInit {
       this.dataView = this.data;
     });
   }
+
+  createSvgEtapas() {
+    const linechartDiv = document.querySelector('.card-line');
+
+    // Obtener las dimensiones del contenedor padre
+      const { width } = linechartDiv.getBoundingClientRect();
+    this.width = width;
+    this.svg = d3
+    .select(this.viewContainerRef.element.nativeElement)
+    .select(".linechart")
+    .append("svg")
+    .attr("height", this.height);
+
+    this.svgInner = this.svg
+  .append("g")
+  .style("transform", "translate(" + this.margin + "px, " + this.margin + "px)");
+
+    // x,y escala
+    this.yScale = d3
+      .scaleLinear()
+      .domain([d3.max(this.dataMedidorSeleccionado, d => d.valor), 0])
+      .range([0, this.height - 2 * this.margin]);
+
+      //escala x es string
+    this.xScale = d3
+      .scaleBand()
+      .domain(this.dataMedidorSeleccionado.map(d => d.mes))
+      .range([this.margin, this.width - 2 * this.margin])
+     
+
+
+
+    //x,y axis
+    this.yAxis = this.svgInner
+      .append("g")
+      .attr("id", "y-axis")
+      .style("transform", "translate(" + this.margin + "px, 0)");
+    this.xAxis = this.svgInner
+      .append("g")
+      .attr("id", "x-axis")
+      .style("transform", "translate(0, " + (this.height - 2 * this.margin) + "px)");
+
+    //linea
+    this.lineGroup = this.svgInner
+      .append('g')
+      .append('path')
+      .attr('id', 'line')
+      .style('fill', 'none')
+      .style('stroke', 'red')
+      .style('stroke-width', '2px');
+      this.drawChartEtapas();
+
+  }
+
+  drawChartEtapas(){
+    //width
+    this.width = this.viewContainerRef.element.nativeElement.getBoundingClientRect().width;
+    this.svg.attr("width", this.width);
+
+    //escala x rango
+
+    const xAxis = d3
+      .axisBottom(this.xScale)
+      .tickSize(0)
+      .tickPadding(10);
+
+
+    this.xAxis.call(xAxis);
+
+    const yAxis = d3
+      .axisRight(this.yScale);
+    this.yAxis.call(yAxis);
+
+    const line = d3
+      .line()
+      .x(d => d[0])
+      .y(d => d[1])
+      .curve(d3.curveMonotoneX);
+
+  //Tooltip
+  const tooltip = d3
+  .select(this.viewContainerRef.element.nativeElement)
+  .select(".linechart")
+  .append("div")
+  .attr("id", "tooltip")
+  .style("opacity", 0.7)
+  .style("position", "absolute")
+  
+
+  // funciones de tooltip
+  const mouseover = (d:any) => {
+    console.log(d);
+    d3.select(d.target)
+    .style("stroke", "black")
+    .style("opacity", 1)
+      
+      tooltip
+      .style("opacity", 1)
+      .html(d.target.__data__.mes + "<br/>"  + "Valor: " + d.target.__data__.valor)
+      .style("left", (d3.pointer(d)[0]) + "px")
+    .style("top", (d3.pointer(d)[1] + 180) + "px")
+  }
+
+  const mouseleave = (d:any) => {
+    console.log(d);
+    d3.select(d.target)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+
+  tooltip
+    .style("opacity", 0)
+  d3.select(d.target)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+  }
+  
+
+    const points: [number, number][] = this.dataMedidorSeleccionado.map(
+      d => [this.xScale(d.mes) + this.xScale.bandwidth() / 2, this.yScale(d.valor)]
+    );
+    this.lineGroup.attr("d", line(points))
+    .style("stroke", "blue")
+
+    this.dots = this.svgInner
+    .selectAll("circle")
+    .data(this.dataMedidorSeleccionado)
+    .enter()
+    .append("circle")
+    .attr("cx", (d:any) => this.xScale(d.mes) + this.xScale.bandwidth() / 2)
+    .attr("cy", (d:any) => this.yScale(d.valor))
+    .attr("r", 5)
+    .style("fill", "red")
+    .style("stroke", "black")
+    .style("stroke-width", "2px")
+    .on("mouseover", mouseover)
+    .on("mouseleave", mouseleave)
+}
+  filtrarPrioridad(){
+    console.log("filtrarPrioridad");
+    console.log(this.meses)
+    console.log(this.medidoresDropdown)
+    this.dataMedidorSeleccionado = [];
+    this.dataMedidor.forEach(element => {
+      if(this.meses.value.includes(element.mes)){
+        if(this.medidoresDropdown.value.includes(element.medidor)){
+          this.dataMedidorSeleccionado.push(element);
+        }
+      }
+    });
+    this.eliminarSvg();
+    this.width = 900;
+    this.createSvgEtapas();
+  }
+  eliminarSvg(){
+    this.svg.remove();
+  }
+    
+
 }

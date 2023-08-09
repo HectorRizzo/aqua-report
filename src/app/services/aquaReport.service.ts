@@ -114,4 +114,13 @@ export class AquaReportService {
         return this.apiService.ApiCall(`login`,'POST',body);
     }
 
+    //graficos 
+    getReportesPorMes(){
+        return this.apiService.ApiCall(`getReportesXMes`,'GET',null);
+    }
+
+    getReportesPorPrioridad(){
+        return this.apiService.ApiCall(`getReportesXMesPrioridad`,'GET',null);
+    }
+
 }
