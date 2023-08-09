@@ -7,7 +7,7 @@ export class Auth {
   constructor() {}
 
     public isLoggedIn(): boolean {
-        const userData = localStorage.getItem('userData');
+        const userData = localStorage.getItem('usuarioAqua');
         if (userData) {
             return true;
         }
