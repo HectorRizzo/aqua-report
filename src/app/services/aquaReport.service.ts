@@ -97,6 +97,14 @@ export class AquaReportService {
         return this.apiService.ApiCall(`getLecturas`,'GET',null);
     }
 
+    getLecturasPendientes(){
+        return this.apiService.ApiCall(`getLecturasPendientes`,'GET',null);
+    }
+
+    getLecturasFinalizadas(){
+        return this.apiService.ApiCall(`getLecturasFinalizadas`,'GET',null);
+    }
+
     crearLectura(lectura){
         return this.apiService.ApiCall(`agregarLectura`,'POST',lectura);
     }

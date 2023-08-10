@@ -142,6 +142,7 @@ export class AdministrarMedidoresComponent implements OnInit {
   categoriaSeleccionada;
   personalBusqueda: any;
   dataView: any;
+  dataLectura: any;
   constructor(
     private aquaReportService: AquaReportService,
     private modal: NgbModal
@@ -173,6 +174,7 @@ export class AdministrarMedidoresComponent implements OnInit {
   };
   ngOnInit() {
     this.obtenerLecturas();
+    this.obtenerFinalizados();
     this.categoriaSeleccionada = this.categoria[0];
 
     this.dataChart = {
@@ -233,7 +235,16 @@ export class AdministrarMedidoresComponent implements OnInit {
   changeCategoria(event){
     console.log(this.data);
     console.log(event);
+
+    if (event.id == 1){
+      this.dataView = this.data;
+    }else{
+      this.dataView = this.dataLectura;
+    }
+    console.log(this.dataView);
     this.categoriaSeleccionada = event;
+
+
   }
   modalMedidor(){
     console.log("modalMedidor");
@@ -333,11 +344,11 @@ export class AdministrarMedidoresComponent implements OnInit {
   }
 
   obtenerLecturas(){
-    this.aquaReportService.getLecturas().subscribe((res:any) => {
+    this.aquaReportService.getLecturasPendientes().subscribe((res:any) => {
       console.log(res);
       res.data.forEach(item => {
         item.id = item.id_lectura,
-        item.fechaUltimaLectura = item.fecha_ultima_lectura,
+        item.fechaUltimaLectura = item.fecha_ultima_lectura? item.fecha_ultima_lectura.split('T')[0]: null,
         item.ultimaLectura = item.ultima_lectura,
         item.fechaCreacion = item.fecha_creacion.split('T')[0],
         item.fechaProximaLectura = item.fecha_proxima_lectura.split('T')[0],
@@ -347,6 +358,23 @@ export class AdministrarMedidoresComponent implements OnInit {
       });
       this.data = res.data;
       this.dataView = this.data;
+    });
+  }
+
+  obtenerFinalizados(){
+    this.aquaReportService.getLecturasFinalizadas().subscribe((res:any) => {
+      console.log(res);
+      res.data.forEach(item => {
+        item.id = item.id_lectura,
+        item.fechaUltimaLectura = item.fecha_ultima_lectura? item.fecha_ultima_lectura.split('T')[0]: null,
+        item.ultimaLectura = item.ultima_lectura,
+        item.fechaCreacion = item.fecha_creacion.split('T')[0],
+        item.fechaProximaLectura = item.fecha_proxima_lectura? item.fecha_proxima_lectura.split('T')[0]: null,
+        item.personal = item.nombrePersonal,
+        item.categoria = item.estado == 'P' ? 1 : 2,
+        item.activo = item.repeticion == 1 ? true : false;
+      });
+      this.dataLectura = res.data;
     });
   }
 }

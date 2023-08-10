@@ -85,21 +85,21 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of dataView">
-                                    <ng-container *ngIf="categoriaSeleccionada && item.categoria == categoriaSeleccionada.id">
+                                    <ng-container >
                                         <td>
                                             {{item.id}}
                                         </td>
                                         <td>
-                                            {{item.fechaUltimaLectura}}
+                                            {{item.fechaUltimaLectura ?? 'Sin lectura'}}
                                         </td>
                                         <td>
-                                            {{item.ultimaLectura}}
+                                            {{item.ultimaLectura ?? 'Sin lectura'}}
                                         </td>
                                         <td class="text-primary">
                                             {{item.fechaCreacion}}
                                         </td>
                                         <td class="">
-                                            {{item.fechaProximaLectura}}
+                                            {{item.fechaProximaLectura ?? 'Sin lectura'}}
                                         </td>
                                         <td class="">
                                             {{item.personal}}
