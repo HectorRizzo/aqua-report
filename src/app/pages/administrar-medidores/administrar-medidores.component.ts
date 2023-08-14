@@ -240,6 +240,7 @@ listaMedidores = [];
   categoriaSeleccionada;
   personalBusqueda: any;
   dataView: any;
+  dataLectura: any;
   constructor(
     private aquaReportService: AquaReportService,
     private modal: NgbModal,
@@ -288,7 +289,16 @@ listaMedidores = [];
   changeCategoria(event){
     console.log(this.data);
     console.log(event);
+
+    if (event.id == 1){
+      this.dataView = this.data;
+    }else{
+      this.dataView = this.dataLectura;
+    }
+    console.log(this.dataView);
     this.categoriaSeleccionada = event;
+
+
   }
   modalMedidor(){
     console.log("modalMedidor");
@@ -392,7 +402,7 @@ listaMedidores = [];
   }
 
   obtenerLecturas(){
-    this.aquaReportService.getLecturas().subscribe((res:any) => {
+    this.aquaReportService.getLecturasPendientes().subscribe((res:any) => {
       console.log(res);
       res.data.forEach(item => {
         item.id = item.id_lectura,
