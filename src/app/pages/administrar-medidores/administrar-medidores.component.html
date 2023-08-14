@@ -133,41 +133,48 @@
         <!-- Grafico-->
         <div class="col-lg-12 col-md-12">
             <div class="card card-line">
-                <div class="row mx-2">
-                    <mat-form-field class="col-4">
-                        <mat-label>Medidores</mat-label>
-                        <mat-select [formControl]="medidoresDropdown" multiple>
-                          <mat-option *ngFor="let med of listaMedidores" [value]="med">{{med}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <div class="card-header card-header-success">
+                    <h4 class="card-title">Evolución del medidor</h4>
+                </div>
+                <div class="row mt-2 mt-2">
+                    <div class="col-3 d-flex align-items-center justify-content-around"> 
+                        <div class="dropdown">
+                            <button href="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" >
+                                <span *ngIf="medidorSeleccionado!=undefined">
+                                    {{medidorSeleccionado.nombre}}
+                                </span>
+                                <b class="caret"></b>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li *ngFor="let med of listaMedidores">
+                                    <a (click)="changeMedidor(med)">
+                                        {{med.nombre}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
-                    <mat-form-field class="col-4">
-                        <mat-label>Meses</mat-label>
-                        <mat-select [formControl]="meses" multiple>
-                          <mat-option *ngFor="let topping of listaMeses" [value]="topping">{{topping}}</mat-option>
-                        </mat-select>
+                    <mat-form-field class="col-2">
+                        <mat-label>fecha Inicio</mat-label>
+                        <input matInput [matDatepicker]="pickerInicio" placeholder="Choose a date" [(ngModel)]="fechaInicio">
+                        <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerInicio></mat-datepicker>
                     </mat-form-field>
-                    <div class="col-5">
+                    <mat-form-field class="col-2">
+                        <mat-label>fecha Fin</mat-label>
+                        <input matInput [matDatepicker]="pickerFin" placeholder="Choose a date" [(ngModel)]="fechaFin">
+                        <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerFin></mat-datepicker>
+                    </mat-form-field>
+                    <div class="col-2">
                     </div>
                     <button mat-raised-button class="col-2 btn btn-danger"
                     (click)="filtrarPrioridad()">
                         <span>Filtrar</span>
                     </button>
                 </div>
-                <div class="row linechart"></div>
-
-            </div>
-        </div>
-        
-        <div class="col-lg-12 col-md-12">
-            <div class="card">
-                <div class="mt-3">
-                    <iframe id="frame"
-                    title="Report Section" 
-                    height="500px"
-                    width="100%"
-                    src="https://app.powerbi.com/view?r=eyJrIjoiNDAzMTAwZjEtNDFlNi00ZjIxLTk4ZDMtYzA0NmY3MGNjYmYwIiwidCI6ImI3YWY4Y2FmLTgzZDgtNDY0NC04NWFlLTMxN2M1NDUyMjNjMSIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
-                </div>
+            <div class="row linechart"></div>
 
             </div>
         </div>

@@ -55,7 +55,7 @@
                           </div>
                           <div class="row">
                             <div class="col-md-12">
-                              Fecha de lectura
+                              Fecha Inicio de lectura
                             </div>
                             <div class="col-md-10">
                               <mat-form-field >
@@ -72,12 +72,25 @@
                               [(ngModel)]="lectura.activo"
                               >
                             </div>
+                            
                             <div class="col-12 d-flex align-items-center justify-content-start">
                               <label class="m-2" for="activo"> ¿Cada cuántos días? </label>
                               <input class="m-2" type="number" id="dias" name="dias"
                               [disabled]="!lectura.activo" 
                               [(ngModel)]="lectura.dias" min="1" max="31" 
                               >
+                            </div>
+                            <div class="col-12">
+                              <div class="col-10">
+                                Fecha fin de lecturas
+                              </div>
+                              <div class="col-10">
+                                <mat-form-field >
+                                  <input matInput [matDatepicker]="pickerFin" (input)="lectura.fechaFin=$event.target.value" [(ngModel)]="lectura.fechaFin"  placeholder="Choose a date" (click)="picker.open()">
+                                  <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                                  <mat-datepicker #pickerFin></mat-datepicker>
+                                </mat-form-field>
+                              </div>
                             </div>
                           </div>
 

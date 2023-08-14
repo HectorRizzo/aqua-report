@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
                 id: res.data.id,
                 id_tipo_usuario: res.data.id_tipo_usuario,
             }
-            localStorage.setItem('usuarioAqua', JSON.stringify(usuario));
+            sessionStorage.setItem('usuarioAqua', JSON.stringify(usuario));
             this.muestraMensaje(res.message, res.status);
             this.router.navigateByUrl('/admin');
 

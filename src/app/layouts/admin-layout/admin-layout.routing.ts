@@ -6,8 +6,6 @@ import { AdministrarMedidoresComponent } from '../../pages/administrar-medidores
 import { GestionarUsuariosComponent } from '../../pages/gestionar-usuarios/gestionar-usuarios.component';
 import { AdministrarReportesComponent } from '../../pages/administrar-reportes/administrar-reportes.component';
 import { MapsComponent } from '../../pages/shared/maps/maps.component';
-import { NotificationsComponent } from '../../pages/notifications/notifications.component';
-import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { CerrarSesionComponent } from 'app/pages/cerrar-sesion/cerrar-sesion.component';
 
 

@@ -10,12 +10,14 @@ import { Subject, debounceTime } from 'rxjs';
 
 import * as d3 from 'd3';
 import { FormControl } from '@angular/forms';
+import * as moment from 'moment';
 
 interface Marker {
   lat: number;
   lng: number;
   label?: string;
   draggable?: boolean;
+  prioridad?: string;
   }
 @Component({
   selector: 'app-administrar-reportes',
@@ -29,9 +31,11 @@ export class AdministrarReportesComponent implements OnInit {
   private _updateLayout$ = new Subject<void>();
   data= [];
   categoria = [
-    {id: 1, nombre: 'Asignados'},
-    {id: 2, nombre: 'Pendientes'},
-    {id: 3, nombre: 'Finalizados'},
+    {id: 'C', nombre: 'Pendientes'},
+    {id: 'A', nombre: 'Asignados'},
+    {id: 'E', nombre: 'En proceso'},
+    {id: 'P', nombre: 'Con Problemas'},
+    {id: 'F', nombre: 'Finalizados'},
   ];
   titulo = 'Reportes';
   datosGrafico = [
@@ -50,39 +54,53 @@ export class AdministrarReportesComponent implements OnInit {
   public yAxis;
   public lineGroup;
   public dots;
-
-  dataPromedio = [
-    {
-      value: 20,
-      label: 'Creacion a Asignacion'
-    },
-    {
-      value: 10,
-      label: 'Asignacion a Aceptacion'
-    },
-    {
-      value: 30,
-      label: 'Aceptacion a En Curso'
-    },
-    {
-      value: 40,
-      label: 'En Curso a Finalizado'
+ pickerInicio = {
+    date: {
+        year: 2021,
+        month: 1,
+        day: 1
     }
-  ];
+  }
+  pickerFin = {
+    date: {
+        year: 2021,
+        month: 12,
+        day: 31
+    }
+  }
+  fechaInicio;
+  fechaFin;
+
+  pickerInicioReport = {
+    date: {
+        year: 2021,
+        month: 1,
+        day: 1
+    }
+  }
+  pickerFinReport = {
+    date: {
+        year: 2021,
+        month: 12,
+        day: 31
+    }
+  }
+  fechaInicioReport;
+  fechaFinReport;
+
+  dataPromedio = [];
   dataPromedioSeleccionado = [
   ];
   dataPrioridad = [
   ];
 
-  dataPrioridadSeleccionado = [
-  ];
+  dataPrioridadSeleccionado = [];
 
   meses = new FormControl('');
-  listaMeses: string[] = ['Enero', 'Febrero', 'Marzo', 'Abril'];
+  listaMeses: string[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
   etapas = new FormControl('');
-  listaEtapas: string[] = ['Creacion a Asignacion', 'Asignacion a Aceptacion', 'Aceptacion a En Curso', 'En Curso a Finalizado'];
-  
+  listaEtapas: string[] = [];
   elem: any;
   @ViewChild('svgContainer', { static: false, read: ElementRef }) svgContainer: ElementRef<HTMLDivElement>;
   nombreGrafico: string;
@@ -100,54 +118,95 @@ export class AdministrarReportesComponent implements OnInit {
       this._updateLayout$
       .pipe(debounceTime(300))
       .subscribe(() => {
-        this.createSvgEtapas();
       })
 
   }
   
   ngOnInit() {
+    this.fechaInicioReport = moment().startOf('year').format('YYYY-MM-DD');
+    this.fechaFinReport = moment().format('YYYY-MM-DD');
+    this.fechaInicio = moment().startOf('year').format('YYYY-MM-DD');
+    this.fechaFin = moment().format('YYYY-MM-DD');
     this.categoriaSeleccionada = this.categoria[0];
     this.dataPromedioSeleccionado = this.dataPromedio;
     this.obtenerReportes();
-    this.createSvgEtapas();
+    this.obtenerPromedioEtapas();
     this.obtenerReportesXPrioridad();
   }
 
   obtenerReportesXPrioridad(){
-    this.aquaReportService.getReportesPorPrioridad().subscribe(
+    let dataPrioridad = [];
+    let body = {
+      fechaInicio: moment(this.fechaInicio).format('YYYY-MM-DD'),
+      fechaFin: moment(this.fechaFin).format('YYYY-MM-DD'),
+    }
+    this.aquaReportService.getReportesPorPrioridad(body).subscribe(
       (res:any) => {
         res.data.forEach(element => {
+          console.log(element);
           let index = element.mes - 1;
-          element.mes = this.listaMeses[element.mes - 1];
-
-          if(this.dataPrioridad[index] === undefined ){
-
-            this.dataPrioridad[index] = {
-              "mes": element.mes,
-              "baja": 0,
-              "media": 0,
-              "alta": 0
-            };
-          }
-            
-          switch (element.prioridad) {
-            case 'A':
-              this.dataPrioridad[index].alta += element.cantidad;
-              break;
-            case 'M':
-              this.dataPrioridad[index].media += element.cantidad;
-              break;
-            case 'B':
-              this.dataPrioridad[index].baja += element.cantidad;
-              break;
+          element.mes = element.mes + '-' + element.anio;
+          console.log(index);
+          console.log(element.mes)
+          if(dataPrioridad.find((data) => data.mes == element.mes)){
+            let index = dataPrioridad.findIndex((data) => data.mes == element.mes);
+            if(element.prioridad == 'A'){
+              dataPrioridad[index].alta = element.cantidad;
+            }else if(element.prioridad == 'M'){
+              dataPrioridad[index].media = element.cantidad;
+            }else{
+              dataPrioridad[index].baja = element.cantidad;
+            }
+          }else{
+            if(element.prioridad == 'A'){
+              dataPrioridad.push({
+                mes: element.mes,
+                alta: element.cantidad,
+                media: 0,
+                baja: 0
+              });
+            }else if(element.prioridad == 'M'){
+              dataPrioridad.push({
+                mes: element.mes,
+                alta: 0,
+                media: element.cantidad,
+                baja: 0
+              });
+            }else{
+              dataPrioridad.push({
+                mes: element.mes,
+                alta: 0,
+                media: 0,
+                baja: element.cantidad
+              });
+            }
           }
         });
         console.log(this.dataPrioridad)
-        this.dataPrioridadSeleccionado = this.dataPrioridad;
+        this.dataPrioridadSeleccionado = dataPrioridad;
         this.createSvgPrioridad();
-
       },)
 
+
+  }
+
+  obtenerPromedioEtapas(){
+    this.aquaReportService.getPromedioEtapa().subscribe(
+      (res:any) => {
+        Object.keys(res.data).forEach(key => {
+          this.listaEtapas.push(key);
+          this.dataPromedio.push({
+            value: res.data[key],
+            label: key
+          });
+        });
+        this.dataPromedioSeleccionado = this.dataPromedio;
+        this.createSvgEtapas();
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 
   createSvgEtapas() {
@@ -210,7 +269,6 @@ export class AdministrarReportesComponent implements OnInit {
     const { width } = barChart.getBoundingClientRect();
     this.width = width;
     this.width = this.viewContainerRef.element.nativeElement.getBoundingClientRect().width;
-    this.svg.attr("width", this.width);
 
     let container = d3.select('.promPrioridad'),
       margin = {top: 30, right: 90, bottom: 30, left: 90},
@@ -263,15 +321,18 @@ export class AdministrarReportesComponent implements OnInit {
     .style("top", (d.offsetY) + "px")
     }
 
+
     const mouseleave = (d:any) => {
+      console.log("leave",d);
       d3.select(d.target)
       .style("stroke", "none")
       .style("opacity", 0.8)
 
-      tooltip
+    tooltip
       .style("opacity", 0)
-      .html("")
+    
     }
+    
 
 
     let mesSelect = svgPrioridad.selectAll(".mes")
@@ -280,7 +341,12 @@ export class AdministrarReportesComponent implements OnInit {
     .attr("class", "mes")
     .attr("transform", d => `translate(${xScale0(d.mes)},0)`)
     .on("mouseover", mouseover)
-    .on("mouseleave", mouseleave)
+    .on("mouseleave", function(){
+      setTimeout(() => {
+        mouseleave(this);
+      }, 1000);
+    });
+
 
 
     // Add the X Axis
@@ -293,6 +359,61 @@ export class AdministrarReportesComponent implements OnInit {
     .attr("class", "y axis")
     .call(yAxis);
 
+    /* add text label for the x axis */
+    svgPrioridad.append("text")
+    .attr("transform", `translate(${(this.width - margin.left - margin.right) / 2},${this.height - margin.top - margin.bottom + 20})`)
+    .style("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .text("Mes");
+
+    /* add text label for the y axis */
+    svgPrioridad.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left + 10)
+    .attr("x",0 - (this.height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .text("Cantidad");
+
+
+    /* add legend baja, media, alta, cada uno con su color */
+    let legend = svgPrioridad.selectAll(".legend")
+    .data(['baja', 'media', 'alta'])
+    .enter().append("g")
+    .attr("class", "legend")
+    .attr("transform", (d, i) => `translate(0,${i * 20})`)
+    .style("font", "10px sans-serif");
+
+    legend.append("rect")
+    .attr("x", this.width - 200)
+    .attr("width", 18)
+    .attr("height", 18)
+    .style("fill", (d:any) => {
+      if(d == 'baja'){
+        return '#12239E';
+      }else if(d == 'media'){
+        return '#ecc000';
+      }else{
+        return '#FF0000';
+      }
+    })
+    
+    legend.append("text")
+    .attr("x", this.width - 205)
+    .attr("y", 9)
+    .attr("dy", ".35em")
+    .style("text-anchor", "end")
+    .text((d:any) => {
+      if(d == 'baja'){
+        return 'Baja';
+      }else if(d == 'media'){
+        return 'Media';
+      }else{
+        return 'Alta';
+      }
+    });
+
     
     /* Add field1 bars */
     mesSelect.selectAll(".bar.baja")
@@ -300,7 +421,7 @@ export class AdministrarReportesComponent implements OnInit {
     .enter()
     .append("rect")
     .attr("class", "bar baja")
-    .style("fill","blue")
+    .style("fill","#12239E")
     .attr("x", d => xScale1('baja'))
     .attr("y", d => yScale(d.baja))
     .attr("width", xScale1.bandwidth())
@@ -315,7 +436,7 @@ export class AdministrarReportesComponent implements OnInit {
     .enter()
     .append("rect")
     .attr("class", "bar media")
-    .style("fill","yellow")
+    .style("fill","#ecc000")
     .attr("x", d => xScale1('media'))
     .attr("y", d => yScale(d.media))
     .attr("width", xScale1.bandwidth())
@@ -330,7 +451,7 @@ export class AdministrarReportesComponent implements OnInit {
     .enter()
     .append("rect")
     .attr("class", "bar alta")
-    .style("fill","red")
+    .style("fill","#FF0000")
     .attr("x", d => xScale1('alta'))
     .attr("y", d => yScale(d.alta))
     .attr("width", xScale1.bandwidth())
@@ -341,30 +462,6 @@ export class AdministrarReportesComponent implements OnInit {
 
   }
 
-  filtrar(){
-    this.dataPromedioSeleccionado = [];
-    this.dataPromedio.forEach(element => {
-      if(this.etapas.value.includes(element.label)){
-        this.dataPromedioSeleccionado.push(element);
-      }
-    });
-    this.eliminarSvg();
-    this.width = 900;
-    this.createSvgEtapas();
-  }
-
-  filtrarPrioridad(){
-    console.log("filtrarPrioridad");
-    this.dataPrioridadSeleccionado = [];
-    this.dataPrioridad.forEach(element => {
-      if(this.meses.value.includes(element.mes)){
-        this.dataPrioridadSeleccionado.push(element);
-      }
-    });
-    this.eliminarSvgPrioridad();
-    this.width = 900;
-    this.createSvgPrioridad();
-  }
     
 
   drawChartEtapas(){
@@ -401,6 +498,22 @@ export class AdministrarReportesComponent implements OnInit {
     .style("opacity", 0.7)
     .style("position", "absolute")
     
+    //add label for the x axis
+    this.svgInner.append("text")
+    .attr("transform", `translate(${(this.width - this.margin) / 2},${this.height - this.margin*1.5})`)
+    .style("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .text("Etapa");
+
+    //add label for the y axis
+    this.svgInner.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - this.margin + 40)
+    .attr("x",0 - (this.height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .text("Promedio");
 
     // funciones de tooltip
     const mouseover = (d:any) => {
@@ -453,13 +566,20 @@ export class AdministrarReportesComponent implements OnInit {
 
 
   obtenerReportes(){
-    this.aquaReportService.getReportes().subscribe(
+    console.log(this.categoria)
+    console.log(this.categoriaSeleccionada)
+    let body = {
+      fechaInicio: moment(this.fechaInicioReport).format('YYYY-MM-DD'),
+      fechaFin: moment(this.fechaFinReport).format('YYYY-MM-DD'),
+      estado: this.categoriaSeleccionada.id,
+    }
+    this.aquaReportService.getReportes(body).subscribe(
       (data:any) => {
         data.forEach(element => {
           element.id = element.id_reporte;
           element.fechaCreacion = element.created_at.split('T')[0];
-          element.categoria = element.estado_nuevo == 'C' ? 1 : element.estado_nuevo == 'F' ? 3 : 2;
-          element.estado = element.estado_nuevo == 'C' ? 'Asignado' : element.estado_nuevo == 'F' ? 'Finalizado' : 'Pendiente';
+          element.categoria = element.estado_nuevo;
+          element.estado = element.estado_nuevo ? this.categoria.find((cat) => cat.id == element.estado_nuevo).nombre : '';
           element.prioridad = element.prioridad == 'A' ? 'Alta' : element.prioridad == 'M' ? 'Media' : 'Baja';
           element.personalAsignado = element.nombrePersonal;
         }
@@ -549,8 +669,10 @@ export class AdministrarReportesComponent implements OnInit {
         label: `<b>N° Reporte: </b> ${element.id} <br>
         <b>Descripción: </b> ${element.descripcion} <br>
         <b>Fecha: </b> ${element.fechaCreacion} <br>
-        <b>Estado: </b> ${element.estado} <br>`,
-        draggable: false
+        <b>Estado: </b> ${element.estado} <br>
+        <b>Prioridad: </b> ${element.prioridad} <br>`,
+        draggable: false,
+        prioridad: element.prioridad
       });
     });
 
@@ -573,6 +695,27 @@ export class AdministrarReportesComponent implements OnInit {
     modalMap.componentInstance.markers = markers;
     modalMap.componentInstance.singleMarker = false;
   }
+  
+  filtrar(){
+    this.dataPromedioSeleccionado = [];
+    this.dataPromedio.forEach(element => {
+      if(this.etapas.value.includes(element.label)){
+        this.dataPromedioSeleccionado.push(element);
+      }
+    });
+    this.eliminarSvg();
+    this.width = 900;
+    this.createSvgEtapas();
+  }
+
+  filtrarPrioridad(){
+    console.log("filtrarPrioridad");
+    this.dataPrioridadSeleccionado = [];
+    this.eliminarSvgPrioridad();
+    this.width = 900;
+    this.obtenerReportesXPrioridad();
+  }
+  
 
   eliminarSvg(){
     this.svg.remove();

@@ -12,12 +12,12 @@ lat: number;
 lng: number;
 label?: string;
 draggable?: boolean;
+prioridad?: string;
 }
 export const DEFAULT_LAT = -2.146398535810503;
 export const DEFAULT_LON = -79.9661883742298;
 export const TITULO = 'Proyecto';
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
-const iconUrl = 'assets/marker-icon.png';
 const shadowUrl = 'assets/marker-shadow.png';
  
 @Component({
@@ -37,6 +37,7 @@ export class MapsComponent implements OnInit {
     @Input() permitirSeleccionar: boolean = false;
 
     @Output() latLon = new EventEmitter<any>();
+    iconUrl = 'assets/marker-red.png';
 
     latSeleccionada;
     lonSeleccionada;
@@ -90,17 +91,32 @@ export class MapsComponent implements OnInit {
           this.map.on('click', this.setearMarcador.bind(this));
         }else{
           if(this.singleMarker){
-            const mark = L.marker([this.lat, this.lon]).bindPopup(
+            const customIcon = L.icon({
+              iconUrl: this.reporte.prioridad == 'Baja' ? 'assets/img/marker-blue.jpg' : this.reporte.prioridad == 'Media' ? 'assets/img/marker-yellow.png' : 'assets/img/marker-red.png', // ruta de la imagen del icono
+              iconSize: [24, 32], // tamaño del icono en píxeles
+              iconAnchor: [16, 32], // posición de anclaje del icono
+            });
+            const mark = L.marker([this.lat, this.lon]
+              , { icon: customIcon }
+              ).bindPopup(
               `<b>N° Reporte: </b> ${this.reporte.id} <br>
               <b>Descripción: </b> ${this.reporte.descripcion} <br>
               <b>Fecha: </b> ${this.reporte.fechaCreacion} <br>
-              <b>Estado: </b> ${this.reporte.estado} <br>`
+              <b>Estado: </b> ${this.reporte.estado} <br>
+              <b>Prioridad: </b> ${this.reporte.prioridad} <br>`
             );
             mark.addTo(this.map);
           }else{
             this.markers.forEach((marker: Marker) => {
               console.log(marker);
-              const m = L.marker([marker.lat, marker.lng], { draggable: marker.draggable }).bindPopup(
+              let customIcon = L.icon({
+                iconUrl: marker.prioridad == 'Baja' ? 'assets/img/marker-blue.jpg' : marker.prioridad == 'Media' ? 'assets/img/marker-yellow.png' : 'assets/img/marker-red.png', // ruta de la imagen del icono
+                iconSize: [24, 32], // tamaño del icono en píxeles
+                iconAnchor: [16, 32], // posición de anclaje del icono
+              });
+              const m = L.marker([marker.lat, marker.lng],
+                { icon: customIcon}, 
+                { draggable: marker.draggable }).bindPopup(
                 `${marker.label}`);
               m.addTo(this.map);
             });

@@ -28,6 +28,7 @@ export class ModalUsuarioComponent implements OnInit {
 
     ngOnInit(): void {
         console.log(this.usuario);
+        this.usuario.correo = this.usuario.email;
         this.obtenerTiposUsuario();
         this.usuario.activo = this.usuario.estado == 'Activo' ? true : false;
     }
