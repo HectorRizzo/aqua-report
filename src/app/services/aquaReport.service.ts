@@ -21,17 +21,17 @@ export class AquaReportService {
     }
 
     getUsuario(){
-        return JSON.parse(localStorage.getItem('usuarioAqua'));
+        return JSON.parse(sessionStorage.getItem('usuarioAqua'));
     }
 
     setUsuario(usuario){
-        localStorage.setItem('usuarioAqua', JSON.stringify(usuario));
+        sessionStorage.setItem('usuarioAqua', JSON.stringify(usuario));
     }
 
     //Reportes
 
-    getReportes(){
-        return this.apiService.ApiCall(`getReportes`,'GET',null);
+    getReportes(query){
+        return this.apiService.ApiCall(`getReportes?fechaInicio=${query.fechaInicio}&fechaFin=${query.fechaFin}&estado=${query.estado}`,'GET',null);
     }
     
     getReportesFinalizados(){
@@ -52,6 +52,13 @@ export class AquaReportService {
 
     deleteReporte(id){
         return this.apiService.ApiCall(`eliminarReporte/${id}`,'DELETE',null);
+    }
+    getUltimosReportes(query){
+        return this.apiService.ApiCall(`getUltimosReportes?cantidad=${query.cantidad}`,'GET',null);
+    }
+
+    getTotalesReportes(){
+        return this.apiService.ApiCall(`getTotalReportes`,'GET',null);
     }
 
     //usuarios
@@ -84,6 +91,10 @@ export class AquaReportService {
         return this.apiService.ApiCall(`getTiposUsuario`,'GET',null);
     }
 
+    getPersonalLectura(){
+        return this.apiService.ApiCall(`getPersonalLectura`,'GET',null);
+    }
+
     //medidores
     getMedidores(){
         return this.apiService.ApiCall(`getMedidores`,'GET',null);
@@ -112,6 +123,23 @@ export class AquaReportService {
     //login
     login(body){
         return this.apiService.ApiCall(`login`,'POST',body);
+    }
+
+    //graficos 
+    getReportesPorMes(query){
+        return this.apiService.ApiCall(`getReportesXMes?fechaInicio=${query.fechaInicio}&fechaFin=${query.fechaFin}`,'GET',null);
+    }
+
+    getReportesPorPrioridad(query){
+        return this.apiService.ApiCall(`getReportesXMesPrioridad?fechaInicio=${query.fechaInicio}&fechaFin=${query.fechaFin}`,'GET',null);
+    }
+
+    getPromedioEtapa(){
+        return this.apiService.ApiCall(`getDiasPromedio`,'GET',null);
+    }
+    getEvolucionMedidores(query){
+        return this.apiService.ApiCall(`getEvolucionMedidores?fechaInicio=${query.fechaInicio}&fechaFin=${query.fechaFin}&idMedidor=${query.idMedidor}`,'GET',null);
+
     }
 
 }

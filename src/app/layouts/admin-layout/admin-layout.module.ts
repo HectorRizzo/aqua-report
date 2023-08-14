@@ -9,10 +9,9 @@ import { GestionarUsuariosComponent } from '../../pages/gestionar-usuarios/gesti
 import { AdministrarReportesComponent } from '../../pages/administrar-reportes/administrar-reportes.component';
 import { MapsComponent } from '../../pages/shared/maps/maps.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
-import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
-import { MatRippleModule} from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
@@ -46,6 +45,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatSelectModule,
     MatTooltipModule,
   ],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+  ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
@@ -63,7 +65,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ModalAgregarMedidorComponent,
     CerrarSesionComponent,
     NotificationsComponent,
-    UpgradeComponent,
   ]
 })
 

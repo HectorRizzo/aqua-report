@@ -18,7 +18,7 @@ import Swal from "sweetalert2";
             cancelButtonColor: '#d33'
             }).then((result) => {
             if (result.value) {
-                localStorage.removeItem('usuarioAqua');
+                sessionStorage.removeItem('usuarioAqua');
                 window.location.href = '/login';
             }
             }

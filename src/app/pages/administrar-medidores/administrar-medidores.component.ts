@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AquaReportService } from 'app/services/aquaReport.service';
 import * as Chartist from 'chartist';
 import { ModalAgregarMedidorComponent } from '../shared/modal-agregar-medidor/modal-agregar-medidor.component';
 import { ModalAgregarLecturaComponent } from '../shared/modal-agregar-lectura/modal-agregar-lectura.component';
 import Swal from 'sweetalert2';
+import * as moment from 'moment'; 
 
+import * as d3 from 'd3';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-administrar-medidores',
   templateUrl: './administrar-medidores.component.html',
@@ -13,6 +16,22 @@ import Swal from 'sweetalert2';
 })
 export class AdministrarMedidoresComponent implements OnInit {
   data:any = [];
+  pickerInicio = {
+    date: {
+        year: 2023,
+        month: 1,
+        day: 1
+    }
+  }
+  pickerFin = {
+    date: {
+        year: 2023,
+        month: 1,
+        day: 1
+    }
+  }
+  fechaInicio;
+  fechaFin;
   medidores = [
     {
       nombre: 'EFC-001',
@@ -131,8 +150,87 @@ export class AdministrarMedidoresComponent implements OnInit {
   ];
 
 
+ // escalas dinamicas en funcion de su contenedor
+ private width = 0;
+ private height = 400;
+ private margin = 50;
+ public svg;
+ public svgInner;
+ public yScale;
+ public xScale;
+ public xAxis;
+ public yAxis;
+ public lineGroup;
+ public dots;
 
+ dataMedidor = [
+  { 
+    medidor: 'EFC-001',
+    mes: 'Enero',
+    valor : 100
+  },
+  {
+    medidor: 'EFC-001',
+    mes: 'Febrero',
+    valor : 200
+  },
+  {
+    medidor: 'EFC-001',
+    mes: 'Marzo',
+    valor : 300
+  },
+  {
+    medidor: 'EFC-001',
+    mes: 'Abril',
+    valor : 400
+  },
+  {
+    medidor: 'EFC-002',
+    mes: 'Enero',
+    valor : 78
+  },
+  {
+    medidor: 'EFC-002',
+    mes: 'Febrero',
+    valor : 97
+  },
+  {
+    medidor: 'EFC-002',
+    mes: 'Marzo',
+    valor : 100
+  },
+  {
+    medidor: 'EFC-002',
+    mes: 'Abril',
+    valor : 34
+  },
+  {
+    medidor: 'EFC-003',
+    mes: 'Enero',
+    valor : 100
+  },
+  {
+    medidor: 'EFC-003',
+    mes: 'Febrero',
+    valor : 400
+  },
+  {
+    medidor: 'EFC-003',
+    mes: 'Marzo',
+    valor : 500
+  },
+  {
+    medidor: 'EFC-003',
+    mes: 'Abril',
+    valor : 60
+  }
+];
+dataMedidorSeleccionado = [
+];
+meses = new FormControl('');
+listaMeses: string[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
+listaMedidores = [];
   categoria = [
     {id: 1, nombre: 'Pendientes'},
     {id: 2, nombre: 'Finalizados'},
@@ -144,7 +242,8 @@ export class AdministrarMedidoresComponent implements OnInit {
   dataView: any;
   constructor(
     private aquaReportService: AquaReportService,
-    private modal: NgbModal
+    private modal: NgbModal,
+    private viewContainerRef: ViewContainerRef
   ) { }
   
   startAnimationForBarChart(chart){
@@ -173,61 +272,17 @@ export class AdministrarMedidoresComponent implements OnInit {
   };
   ngOnInit() {
     this.obtenerLecturas();
+    this.fechaInicio = moment().startOf('year').format('YYYY-MM-DD');
+    this.fechaFin = moment().format('YYYY-MM-DD');
     this.categoriaSeleccionada = this.categoria[0];
-
-    this.dataChart = {
-      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
-      series: [
-          [230, 750, 450, 300, 280, 240, 200]
-      ]
-  };
-
-    let  optionChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-          tension: 0
-      }),
-      low: 0,
-      high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0}
-    } 
     
-    let completedTasksChart = new Chartist.Line('#dailySalesChart', this.dataChart, optionChart);
-
-    
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(completedTasksChart);
+    this.dataMedidorSeleccionado = this.dataMedidor.filter((item) => {
+      return item.medidor == 'EFC-001';
     }
-  startAnimationForLineChart(chart){
-    let seq: any, delays: any, durations: any;
-    seq = 0;
-    delays = 80;
-    durations = 500;
-
-    chart.on('draw', function(data) {
-      if(data.type === 'line' || data.type === 'area') {
-        data.element.animate({
-          d: {
-            begin: 600,
-            dur: 700,
-            from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-            to: data.path.clone().stringify(),
-            easing: Chartist.Svg.Easing.easeOutQuint
-          }
-        });
-      } else if(data.type === 'point') {
-            seq++;
-            data.element.animate({
-              opacity: {
-                begin: seq * delays,
-                dur: durations,
-                from: 0,
-                to: 1,
-                easing: 'ease'
-              }
-            });
-        }
-    });
+    );
+    this.obtenerListaMedidores();
   }
+    
 
 
   changeCategoria(event){
@@ -299,7 +354,7 @@ export class AdministrarMedidoresComponent implements OnInit {
     console.log("setDataChart");
     console.log(medidor);
     this.dataChart = {
-      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto'],
+      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre','Octubre','Noviembre','Diciembre'],
       series: [
           medidor.valores.map((item) => {
             return item.valor;
@@ -317,12 +372,7 @@ export class AdministrarMedidoresComponent implements OnInit {
 
     console.log(this.dataChart);
 
-    let completedTasksChart = new Chartist.Line('#dailySalesChart', this.dataChart, optionChart);
-
-    
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(completedTasksChart);
-  }
+    }
 
   buscarPersonal(){
     console.log(this.personalBusqueda);
@@ -332,15 +382,24 @@ export class AdministrarMedidoresComponent implements OnInit {
     );
   }
 
+  obtenerListaMedidores(){
+    this.aquaReportService.getMedidores().subscribe((res:any) => {
+      console.log(res);
+      this.listaMedidores = res.data;
+      this.medidorSeleccionado = this.listaMedidores[0];
+      this.obtenerEvolucionMedidor();
+    });
+  }
+
   obtenerLecturas(){
     this.aquaReportService.getLecturas().subscribe((res:any) => {
       console.log(res);
       res.data.forEach(item => {
         item.id = item.id_lectura,
-        item.fechaUltimaLectura = item.fecha_ultima_lectura,
+        item.fechaUltimaLectura = item.fecha_ultima_lectura ? item.fecha_ultima_lectura.split('T')[0] : null,
         item.ultimaLectura = item.ultima_lectura,
-        item.fechaCreacion = item.fecha_creacion.split('T')[0],
-        item.fechaProximaLectura = item.fecha_proxima_lectura.split('T')[0],
+        item.fechaCreacion = item.fecha_creacion? item.fecha_creacion.split('T')[0] : null,
+        item.fechaProximaLectura = item.fecha_proxima_lectura? item.fecha_proxima_lectura.split('T')[0] : null,
         item.personal = item.nombrePersonal,
         item.categoria = item.estado == 'P' ? 1 : 2,
         item.activo = item.repeticion == 1 ? true : false;
@@ -349,4 +408,199 @@ export class AdministrarMedidoresComponent implements OnInit {
       this.dataView = this.data;
     });
   }
+
+  obtenerEvolucionMedidor(){
+    console.log(this.medidorSeleccionado);
+    console.log(this.fechaInicio);
+    console.log(this.fechaFin);
+    let query = {
+      idMedidor: this.medidorSeleccionado.id_medidor,
+      fechaInicio: moment(this.fechaInicio).format('YYYY-MM-DD'),
+      fechaFin: moment(this.fechaFin).format('YYYY-MM-DD'),
+    }
+    this.aquaReportService.getEvolucionMedidores(query).subscribe((res:any) => {
+      console.log(res);
+      this.dataMedidorSeleccionado = res.data.map((item) => {
+        item.fecha = item.fecha.split('T')[0];
+        return item;
+      });    
+
+      this.createSvgEtapas();
+    });
+  }
+
+  createSvgEtapas() {
+    const linechartDiv = document.querySelector('.card-line');
+
+    // Obtener las dimensiones del contenedor padre
+      const { width } = linechartDiv.getBoundingClientRect();
+    this.width = width;
+    this.svg = d3
+    .select(this.viewContainerRef.element.nativeElement)
+    .select(".linechart")
+    .append("svg")
+    .attr("height", this.height);
+
+    this.svgInner = this.svg
+  .append("g")
+  .style("transform", "translate(" + this.margin + "px, " + this.margin + "px)");
+
+    // x,y escala
+    this.yScale = d3
+      .scaleLinear()
+      .domain([d3.max(this.dataMedidorSeleccionado, d => d.lectura), 0])
+      .range([0, this.height - 2 * this.margin]);
+
+      //escala x es string
+    this.xScale = d3
+      .scaleBand()
+      .domain(this.dataMedidorSeleccionado.map(d => d.fecha))
+      .range([this.margin, this.width - 2 * this.margin])
+
+      //add label for x axis
+      this.svgInner
+      .append("text")
+      .attr("x", this.width / 2)
+      .attr("y", this.height - this.margin*1.5)
+      .attr("dy", "1.5em")
+      .style("text-anchor", "middle")
+      .style("font-weight", "bold")
+      .text("Fecha");
+
+      //add label for y axis
+      this.svgInner
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", 0 - this.height / 2)
+      .attr("y", this.margin / 2)
+      .attr("dy", "-1.1em")
+      .style("text-anchor", "middle")
+      .style("font-weight", "bold")
+      .text("Lectura");
+
+    //x,y axis
+    this.yAxis = this.svgInner
+      .append("g")
+      .attr("id", "y-axis")
+      .style("transform", "translate(" + this.margin + "px, 0)");
+    this.xAxis = this.svgInner
+      .append("g")
+      .attr("id", "x-axis")
+      .style("transform", "translate(0, " + (this.height - 2 * this.margin) + "px)");
+
+    //linea
+    this.lineGroup = this.svgInner
+      .append('g')
+      .append('path')
+      .attr('id', 'line')
+      .style('fill', 'none')
+      .style('stroke', 'red')
+      .style('stroke-width', '2px');
+      this.drawChartEtapas();
+
+  }
+
+  changeMedidor(event){
+    console.log(event);
+    this.medidorSeleccionado = event;
+  }
+  drawChartEtapas(){
+    //width
+    this.width = this.viewContainerRef.element.nativeElement.getBoundingClientRect().width;
+    this.svg.attr("width", this.width);
+
+    //escala x rango
+
+    const xAxis = d3
+      .axisBottom(this.xScale)
+      .tickSize(0)
+      .tickPadding(10);
+
+
+    this.xAxis.call(xAxis);
+
+    const yAxis = d3
+      .axisRight(this.yScale);
+    this.yAxis.call(yAxis);
+
+    const line = d3
+      .line()
+      .x(d => d[0])
+      .y(d => d[1])
+      .curve(d3.curveMonotoneX);
+
+  //Tooltip
+  const tooltip = d3
+  .select(this.viewContainerRef.element.nativeElement)
+  .select(".linechart")
+  .append("div")
+  .attr("id", "tooltip")
+  .style("opacity", 0.7)
+  .style("position", "absolute")
+  
+
+  // funciones de tooltip
+  const mouseover = (d:any) => {
+    console.log(d);
+    d3.select(d.target)
+    .style("stroke", "black")
+    .style("opacity", 1)
+      
+      tooltip
+      .style("opacity", 1)
+      .html(d.target.__data__.fecha + "<br/>"  + "Valor: " + d.target.__data__.lectura)
+      .style("left", (d3.pointer(d)[0]) + "px")
+    .style("top", (d3.pointer(d)[1] + 180) + "px")
+  }
+
+  const mouseleave = (d:any) => {
+    console.log(d);
+    d3.select(d.target)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+
+  tooltip
+    .style("opacity", 0)
+  d3.select(d.target)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+  }
+  
+
+    const points: [number, number][] = this.dataMedidorSeleccionado.map(
+      d => [this.xScale(d.fecha) + this.xScale.bandwidth() / 2, this.yScale(d.lectura)]
+    );
+    this.lineGroup.attr("d", line(points))
+    .style("stroke", "blue")
+
+    this.dots = this.svgInner
+    .selectAll("circle")
+    .data(this.dataMedidorSeleccionado)
+    .enter()
+    .append("circle")
+    .attr("cx", (d:any) => this.xScale(d.fecha) + this.xScale.bandwidth() / 2)
+    .attr("cy", (d:any) => this.yScale(d.lectura))
+    .attr("r", 5)
+    .style("fill", "red")
+    .style("stroke", "black")
+    .style("stroke-width", "2px")
+    .on("mouseover", mouseover)
+    .on("mouseleave", mouseleave)
+}
+  filtrarPrioridad(){
+    console.log("filtrarPrioridad");
+    console.log(this.meses)
+    this.dataMedidorSeleccionado = [];
+    this.eliminarSvg();
+    this.width = 900;
+  }
+  eliminarSvg(){
+    console.log("eliminarSvg");
+    console.log(this.svg);
+    this.svg.remove();
+    console.log(this.svg);
+    this.obtenerEvolucionMedidor();
+  }
+    
+
 }

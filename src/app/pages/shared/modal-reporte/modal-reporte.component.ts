@@ -42,6 +42,7 @@ export class ModalReporteComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        console.log(this.reporte);
         this.obtenerPersonal();
     }
 

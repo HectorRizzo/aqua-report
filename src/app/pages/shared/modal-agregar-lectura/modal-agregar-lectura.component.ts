@@ -21,9 +21,16 @@ export class ModalAgregarLecturaComponent implements OnInit {
     lectura : any = {};
     picker = {
         date: {
-            year: 2020,
+            year: 2023,
             month: 1,
             day: 1
+        }
+    }
+    pickerFin = {
+        date: {
+            year: 2023,
+            month: 12,
+            day: 31
         }
     }
     mostrarMensaje = false;
@@ -53,9 +60,9 @@ export class ModalAgregarLecturaComponent implements OnInit {
     ngOnInit(): void {
         console.log(this.lecturaBase);
         if(this.lecturaBase){
-this.lectura.fecha = this.lecturaBase.fechaProximaLectura;
-this.lectura.activo = this.lecturaBase.repeticion > 0;
-this.lectura.dias = this.lecturaBase.repeticion;
+            this.lectura.fecha = this.lecturaBase.fechaProximaLectura;
+            this.lectura.activo = this.lecturaBase.repeticion > 0;
+            this.lectura.dias = this.lecturaBase.repeticion;
         }
         this.obtenerPersonal();
         this.obtenerMedidores();
@@ -77,7 +84,7 @@ this.lectura.dias = this.lecturaBase.repeticion;
     }
 
     obtenerPersonal() {
-        this.aquaReportService.getPersonal().subscribe((data: any) => {
+        this.aquaReportService.getPersonalLectura().subscribe((data: any) => {
             data.forEach(element => {
                 element.nombre = element.nombre;
             })
