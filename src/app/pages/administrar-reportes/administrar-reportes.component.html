@@ -25,13 +25,13 @@
 
            
             <mat-form-field class="col-2">
-                <mat-label>fechaInicio</mat-label>
+                <mat-label>fecha Inicio</mat-label>
                 <input matInput [matDatepicker]="pickerInicioReport" placeholder="Choose a date" [(ngModel)]="fechaInicioReport">
                 <mat-datepicker-toggle matSuffix [for]="pickerInicioReport"></mat-datepicker-toggle>
                 <mat-datepicker #pickerInicioReport></mat-datepicker>
             </mat-form-field>
             <mat-form-field class="col-2">
-                <mat-label>fechaFin</mat-label>
+                <mat-label>fecha Fin</mat-label>
                 <input matInput [matDatepicker]="pickerFinReport" placeholder="Choose a date" [(ngModel)]="fechaFinReport">
                 <mat-datepicker-toggle matSuffix [for]="pickerFinReport"></mat-datepicker-toggle>
                 <mat-datepicker #pickerFinReport></mat-datepicker>

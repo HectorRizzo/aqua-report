@@ -240,39 +240,18 @@ listaMedidores = [];
   categoriaSeleccionada;
   personalBusqueda: any;
   dataView: any;
-  dataLectura: any;
+  dataLecturaFinalizada: any;
+  dataPendiente: any;
   constructor(
     private aquaReportService: AquaReportService,
     private modal: NgbModal,
     private viewContainerRef: ViewContainerRef
   ) { }
   
-  startAnimationForBarChart(chart){
-    console.log("animation started");
-    let seq2: any, delays2: any, durations2: any;
 
-    seq2 = 0;
-    delays2 = 80;
-    durations2 = 500;
-    chart.on('draw', function(data) {
-      if(data.type === 'bar'){
-          seq2++;
-          data.element.animate({
-            opacity: {
-              begin: seq2 * delays2,
-              dur: durations2,
-              from: 0,
-              to: 1,
-              easing: 'ease'
-            }
-          });
-      }
-    });
-
-    seq2 = 0;
-  };
   ngOnInit() {
     this.obtenerLecturas();
+    this.obtenerLecturasFinalizadas();
     this.fechaInicio = moment().startOf('year').format('YYYY-MM-DD');
     this.fechaFin = moment().format('YYYY-MM-DD');
     this.categoriaSeleccionada = this.categoria[0];
@@ -287,13 +266,10 @@ listaMedidores = [];
 
 
   changeCategoria(event){
-    console.log(this.data);
-    console.log(event);
-
     if (event.id == 1){
-      this.dataView = this.data;
+      this.dataView = this.dataPendiente;
     }else{
-      this.dataView = this.dataLectura;
+      this.dataView = this.dataLecturaFinalizada;
     }
     console.log(this.dataView);
     this.categoriaSeleccionada = event;
@@ -307,6 +283,7 @@ listaMedidores = [];
     modalAgregar.componentInstance.resp.subscribe((data) => {
       console.log(data);
       this.obtenerLecturas();
+      this.obtenerLecturasFinalizadas();
     }
     );
     
@@ -321,6 +298,7 @@ listaMedidores = [];
       modalAgregarLectura.componentInstance.resp.subscribe((data) => {
         console.log(data);
         this.obtenerLecturas();
+        this.obtenerLecturasFinalizadas();
       }
       );
   }
@@ -414,8 +392,24 @@ listaMedidores = [];
         item.categoria = item.estado == 'P' ? 1 : 2,
         item.activo = item.repeticion == 1 ? true : false;
       });
-      this.data = res.data;
-      this.dataView = this.data;
+      this.dataPendiente = res.data;
+      this.dataView = this.dataPendiente;
+    });
+  }
+  obtenerLecturasFinalizadas(){
+    this.aquaReportService.getLecturasFinalizadas().subscribe((res:any) => {
+      console.log(res);
+      res.data.forEach(item => {
+        item.id = item.id_lectura,
+        item.fechaUltimaLectura = item.fecha_ultima_lectura ? item.fecha_ultima_lectura.split('T')[0] : null,
+        item.ultimaLectura = item.ultima_lectura,
+        item.fechaCreacion = item.fecha_creacion? item.fecha_creacion.split('T')[0] : null,
+        item.fechaProximaLectura = item.fecha_proxima_lectura? item.fecha_proxima_lectura.split('T')[0] : null,
+        item.personal = item.nombrePersonal,
+        item.categoria = item.estado == 'P' ? 1 : 2,
+        item.activo = item.repeticion == 1 ? true : false;
+      });
+      this.dataLecturaFinalizada = res.data;
     });
   }
 
