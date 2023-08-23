@@ -121,6 +121,7 @@ export class GestionarUsuariosComponent implements OnInit {
             'El usuario ha sido eliminado correctamente',
             'success'
           )
+          this.obtenerUsuarios();
         }, (error) => {
           Swal.fire(
             'Error',
@@ -129,7 +130,6 @@ export class GestionarUsuariosComponent implements OnInit {
           )
         }
         );
-        this.obtenerUsuarios();
       }
     })
   }

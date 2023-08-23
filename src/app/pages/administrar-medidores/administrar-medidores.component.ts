@@ -9,6 +9,8 @@ import * as moment from 'moment';
 
 import * as d3 from 'd3';
 import { FormControl } from '@angular/forms';
+import { ModalModificarMedidorComponent } from '../shared/modal-modificar-medidor/modal-modificar-medidor.component';
+
 @Component({
   selector: 'app-administrar-medidores',
   templateUrl: './administrar-medidores.component.html',
@@ -287,6 +289,18 @@ listaMedidores = [];
     }
     );
     
+  }
+
+  modalModificarMedidor(item?){
+    console.log("modalMedidorModificar");
+    const modalAgregar = this.modal.open(ModalModificarMedidorComponent, 
+      { size: 'lg', backdrop: false, keyboard: false });
+    modalAgregar.componentInstance.resp.subscribe((data) => {
+      console.log(data);
+      this.obtenerLecturas();
+      this.obtenerLecturasFinalizadas();
+    }
+    );
   }
 
   modalLectura(item?){

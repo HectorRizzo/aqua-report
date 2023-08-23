@@ -123,9 +123,24 @@ export class AquaReportService {
     actualizarLectura(lectura, id){
         return this.apiService.ApiCall(`reasignarUsuarioLectura/${id}`,'PUT',lectura);
     }
+    getLecturasXMedidor(id){
+        return this.apiService.ApiCall(`getLecturasPorMedidor/${id}`,'GET',null);
+    }
+
+    actualizarMedidor(medidor, id){
+        return this.apiService.ApiCall(`editarMedidor/${id}`,'PUT',medidor);
+    }
 
     eliminarLectura(id){
         return this.apiService.ApiCall(`eliminarLectura/${id}`,'DELETE',null);
+    }
+
+    eliminarMedidor(id){
+        return this.apiService.ApiCall(`eliminarMedidor/${id}`,'DELETE',null);
+    }
+
+    eliminarLecturasXMedidor(id){
+        return this.apiService.ApiCall(`eliminarLecturasPorMedidor/${id}`,'DELETE',null);
     }
 
     //login

@@ -28,6 +28,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { LoginComponent } from 'app/pages/login/login.component';
 import { CerrarSesionComponent } from 'app/pages/cerrar-sesion/cerrar-sesion.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ModalModificarMedidorComponent } from 'app/pages/shared/modal-modificar-medidor/modal-modificar-medidor.component';
 
 @NgModule({
   imports: [
@@ -61,8 +62,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ModalReporteComponent,
     ModalUsuarioComponent,
     ModalAgregarLecturaComponent,
-    LoginComponent,
     ModalAgregarMedidorComponent,
+    LoginComponent,
+    ModalModificarMedidorComponent,
     CerrarSesionComponent,
     NotificationsComponent,
   ]
